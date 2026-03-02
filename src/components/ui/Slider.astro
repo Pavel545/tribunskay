@@ -1,0 +1,375 @@
+---
+// src/components/Slider.tsx
+export interface Props {
+  images: string[];
+  autoplayDelay?: number;
+  pauseOnInteraction?: number;
+  height?: string; // опциональная высота слайдера
+}
+
+const { 
+  images, 
+  autoplayDelay = 5000, 
+  pauseOnInteraction = 10000,
+  height = '600px' // высота по умолчанию
+} = Astro.props;
+---
+
+<section class="slider-wrapper">
+  <div class="container">
+    <div class="slider" id="slider" data-autoplay-delay={autoplayDelay} data-pause-on-interaction={pauseOnInteraction}>
+      <div class="slider-container">
+        <div class="slider-track">
+          {images.map((src, index) => (
+            <div class="slider-slide" data-index={index}>
+              <img src={src} alt={`Slide ${index + 1}`} loading={index === 0 ? "eager" : "lazy"} />
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+    
+    <div class="slider-pagination">
+      {images.map((_, index) => (
+        <button class="slider-dot" data-index={index} aria-label={`Перейти к слайду ${index + 1}`}></button>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style is:global>
+  .slider-wrapper {
+    width: 100%;
+  }
+
+
+
+  .slider {
+    width: 100%;
+    height: v-bind(height);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .slider-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+  }
+
+  .slider-track {
+    display: flex;
+    height: 100%;
+    transition: transform 0.3s ease-out;
+    cursor: grab;
+  }
+
+  .slider-track.dragging {
+    cursor: grabbing;
+    transition: none;
+  }
+
+  .slider-slide {
+    flex: 0 0 100%;
+    height: 90vh;
+    position: relative;
+  }
+
+  .slider-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .slider-pagination {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 20px;
+    padding-bottom: 20px;
+  }
+
+  .slider-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--svetlo-seryy);;
+    padding: 0;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .slider-dot.active {
+    background: var(--zheltyy);;
+    transform: scale(1.2);
+  }
+
+  @media (max-width: 1680px) {
+    .container {
+      width: 100%;
+      max-width: 1640px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .slider {
+      height: 400px; /* меньшая высота на мобильных */
+    }
+    
+    .slider-pagination {
+      gap: 8px;
+      margin-top: 16px;
+      padding-bottom: 16px;
+    }
+    
+    .slider-dot {
+      width: 10px;
+      height: 10px;
+    }
+  }
+</style>
+
+<script>
+  interface SliderElements {
+    slider: HTMLElement;
+    container: HTMLElement;
+    track: HTMLElement;
+    slides: NodeListOf<Element>;
+    dots: NodeListOf<Element>;
+  }
+
+  class Slider {
+    private slider: HTMLElement;
+    private container: HTMLElement;
+    private track: HTMLElement;
+    private slides: NodeListOf<Element>;
+    private dots: NodeListOf<Element>;
+    
+    private currentIndex: number = 0;
+    private slideCount: number;
+    private startX: number = 0;
+    private currentX: number = 0;
+    private isDragging: boolean = false;
+    private dragStartTime: number = 0;
+    private autoplayTimer: number | null = null;
+    
+    private autoplayDelay: number;
+    private pauseOnInteraction: number;
+    
+    constructor(element: HTMLElement) {
+      this.slider = element;
+      
+      const container = element.querySelector('.slider-container');
+      const track = element.querySelector('.slider-track');
+      const slides = element.querySelectorAll('.slider-slide');
+      const dots = document.querySelectorAll('.slider-dot'); // ищем точки вне слайдера
+      
+      if (!container || !track || !slides.length) {
+        throw new Error('Required slider elements not found');
+      }
+      
+      this.container = container as HTMLElement;
+      this.track = track as HTMLElement;
+      this.slides = slides;
+      this.dots = dots;
+      
+      this.slideCount = this.slides.length;
+      
+      this.autoplayDelay = parseInt(element.dataset.autoplayDelay || '5000');
+      this.pauseOnInteraction = parseInt(element.dataset.pauseOnInteraction || '10000');
+      
+      this.init();
+    }
+    
+    private init(): void {
+      this.updateSlidePosition();
+      this.updatePagination();
+      this.startAutoplay();
+      this.bindEvents();
+    }
+    
+    private bindEvents(): void {
+      // Mouse events
+      this.track.addEventListener('mousedown', this.handleDragStart.bind(this));
+      window.addEventListener('mousemove', this.handleDragMove.bind(this));
+      window.addEventListener('mouseup', this.handleDragEnd.bind(this));
+      
+      // Touch events
+      this.track.addEventListener('touchstart', this.handleDragStart.bind(this), { passive: true });
+      window.addEventListener('touchmove', this.handleDragMove.bind(this), { passive: false });
+      window.addEventListener('touchend', this.handleDragEnd.bind(this));
+      window.addEventListener('touchcancel', this.handleDragEnd.bind(this));
+      
+      // Pagination clicks
+      this.dots.forEach((dot: Element) => {
+        dot.addEventListener('click', (e: Event) => {
+          e.preventDefault();
+          const index = parseInt((dot as HTMLElement).dataset.index || '0');
+          this.goToSlide(index);
+          this.pauseAutoplay();
+        });
+      });
+      
+      // Prevent context menu on track
+      this.track.addEventListener('contextmenu', (e: Event) => e.preventDefault());
+      
+      // Mouse leave
+      this.track.addEventListener('mouseleave', this.handleDragEnd.bind(this));
+    }
+    
+    private handleDragStart(e: MouseEvent | TouchEvent): void {
+      e.preventDefault();
+      
+      const clientX = this.getClientX(e);
+      
+      this.isDragging = true;
+      this.dragStartTime = Date.now();
+      this.startX = clientX - this.currentIndex * this.slider.offsetWidth;
+      this.currentX = clientX;
+      
+      this.track.classList.add('dragging');
+      this.pauseAutoplay();
+    }
+    
+    private handleDragMove(e: MouseEvent | TouchEvent): void {
+      if (!this.isDragging) return;
+      
+      e.preventDefault();
+      
+      const clientX = this.getClientX(e);
+      this.currentX = clientX;
+      
+      const diff = this.currentX - this.startX;
+      
+      // Добавляем резиновый эффект на границах
+      if (this.currentIndex === 0 && diff > 0) {
+        // Начало - резинка вправо
+        this.track.style.transform = `translateX(${diff * 0.3}px)`;
+      } else if (this.currentIndex === this.slideCount - 1 && diff < 0) {
+        // Конец - резинка влево
+        const maxDiff = diff + (this.slideCount - 1) * this.slider.offsetWidth;
+        this.track.style.transform = `translateX(${maxDiff * 0.3}px)`;
+      } else {
+        // Обычное перетаскивание
+        this.track.style.transform = `translateX(${diff}px)`;
+      }
+    }
+    
+    private handleDragEnd(e?: MouseEvent | TouchEvent): void {
+      if (!this.isDragging) return;
+      
+      this.isDragging = false;
+      this.track.classList.remove('dragging');
+      
+      const dragDuration = Date.now() - this.dragStartTime;
+      const clientX = this.getClientXFromEndEvent(e);
+      
+      const diff = clientX - this.startX;
+      const threshold = this.slider.offsetWidth * 0.2; // Порог переключения (20% ширины)
+      
+      if (Math.abs(diff) > threshold || (dragDuration < 300 && Math.abs(diff) > 50)) {
+        // Быстрое перетаскивание или превышение порога
+        if (diff > 0 && this.currentIndex > 0) {
+          this.currentIndex--;
+        } else if (diff < 0 && this.currentIndex < this.slideCount - 1) {
+          this.currentIndex++;
+        }
+      }
+      
+      this.updateSlidePosition();
+      
+      // Возобновляем автопрокрутку после паузы
+      setTimeout(() => {
+        this.startAutoplay();
+      }, this.pauseOnInteraction);
+    }
+    
+    private getClientX(e: MouseEvent | TouchEvent): number {
+      if (e instanceof TouchEvent) {
+        return e.touches[0].clientX;
+      }
+      return e.clientX;
+    }
+    
+    private getClientXFromEndEvent(e?: MouseEvent | TouchEvent): number {
+      if (!e) return this.currentX;
+      
+      if (e instanceof TouchEvent) {
+        return e.changedTouches ? e.changedTouches[0].clientX : this.currentX;
+      }
+      return e.clientX;
+    }
+    
+    private goToSlide(index: number): void {
+      if (index < 0 || index >= this.slideCount) return;
+      
+      this.currentIndex = index;
+      this.updateSlidePosition();
+      this.updatePagination();
+    }
+    
+    private updateSlidePosition(): void {
+      const offset = -this.currentIndex * this.slider.offsetWidth;
+      this.track.style.transform = `translateX(${offset}px)`;
+      this.updatePagination();
+    }
+    
+    private updatePagination(): void {
+      this.dots.forEach((dot: Element, index: number) => {
+        if (index === this.currentIndex) {
+          dot.classList.add('active');
+        } else {
+          dot.classList.remove('active');
+        }
+      });
+    }
+    
+    private startAutoplay(): void {
+      if (this.autoplayTimer !== null) {
+        clearInterval(this.autoplayTimer);
+      }
+      
+      this.autoplayTimer = window.setInterval(() => {
+        this.nextSlide();
+      }, this.autoplayDelay);
+    }
+    
+    private pauseAutoplay(): void {
+      if (this.autoplayTimer !== null) {
+        clearInterval(this.autoplayTimer);
+        this.autoplayTimer = null;
+      }
+    }
+    
+    private nextSlide(): void {
+      if (this.currentIndex < this.slideCount - 1) {
+        this.currentIndex++;
+      } else {
+        this.currentIndex = 0; // Зацикливание
+      }
+      
+      this.updateSlidePosition();
+    }
+    
+    private prevSlide(): void {
+      if (this.currentIndex > 0) {
+        this.currentIndex--;
+      } else {
+        this.currentIndex = this.slideCount - 1; // Зацикливание
+      }
+      
+      this.updateSlidePosition();
+    }
+  }
+
+  // Инициализация слайдера после загрузки страницы
+  document.addEventListener('DOMContentLoaded', () => {
+    const sliderElement = document.getElementById('slider');
+    if (sliderElement) {
+      new Slider(sliderElement);
+    }
+  });
+</script>

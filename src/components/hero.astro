@@ -1,0 +1,139 @@
+---
+import VideoBackground from "./ui/VideoBackground.astro";
+---
+
+<VideoBackground videoSrc="/video/fonHero.mp4">
+    <!-- Весь контент из hero секции -->
+    <div class="gird">
+        <div class="grid-left">
+            <h1 class="title">
+                Трибунская <br /><span class="titleSp">про деньги</span>
+            </h1>
+            <ul class="list">
+                <li class="list_item">Финансовый аудит бизнеса</li>
+                <li class="list_item">
+                    Обучение финансовой грамотности для компаний
+                </li>
+                <li class="list_item">Личный рост по финансам</li>
+            </ul>
+
+            <div class="butBox">
+                <button style="--bg:var(--zheltyy)" class="butt"
+                    >ОНлайн обучение</button
+                >
+                <button class="butt">Записаться на консультацию </button>
+            </div>
+        </div>
+
+        <div class="grid-right">
+            <div class="bos-box">
+                <img class="bos-img" src="/img/bos.png" alt="" />
+            </div>
+
+            <div class="vizitka">
+                <h3 class="vizitka_title">Евгения Трибунская</h3>
+                <p class="vizitka_text">
+                    Финансовый аналитик | Основатель компании |<br /> Спикер | Бизнес-консультант
+                </p>
+            </div>
+        </div>
+    </div>
+</VideoBackground>
+
+<style>
+    .vizitka {
+        position: absolute;
+        right: 0;
+        bottom: 10%;
+        padding: 26px;
+        padding-right: 12vh;
+        background: linear-gradient(
+            270deg,
+            #0a0a0abd 60.07%,
+            rgba(10, 10, 10, 0) 100%
+        );
+    }
+
+    .vizitka_title {
+        font-family: var(--second-family);
+        font-weight: 700;
+        font-size: 40px;
+        line-height: 110%;
+        text-transform: uppercase;
+        text-align: right;
+        color: var(--zheltyy);
+    }
+
+    .vizitka_text {
+        font-family: var(--font-family);
+        font-weight: 400;
+        font-size: 20px;
+        line-height: 130%;
+        text-align: right;
+        color: var(--belyy);
+    }
+    .gird {
+        display: grid;
+        grid-template-columns: 1.2fr 1fr;
+        align-items: center;
+    }
+
+    .grid-right {
+        /* position: relative; */
+    }
+
+    .bos-box {
+        height: 100%;
+        position: absolute;
+        top: 0;
+        right: 5%;
+        width: auto;
+    }
+
+    .bos-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    .title {
+        font-family: var(--second-family);
+        font-weight: 700;
+        font-size: 90px;
+        line-height: 100%;
+        text-transform: uppercase;
+        color: var(--belyy);
+    }
+
+    .titleSp {
+        font-family: var(--second-family);
+        font-weight: 700;
+        font-size: 110px;
+        line-height: 111%;
+        text-transform: uppercase;
+        color: var(--zheltyy);
+    }
+
+    .list {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .list_item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .list_item::before {
+        content: url("/icons/rub.png");
+        width: 20px;
+        height: 20px;
+    }
+
+    .butBox {
+        display: flex;
+        gap: 20px;
+        margin-top: 80px;
+    }
+</style>

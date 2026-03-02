@@ -1,0 +1,130 @@
+---
+
+---
+<section class="about" id="about">
+    <!-- Бегущая строка -->
+        <div class="marquee">
+            <div class="marquee__inner">
+                <span>Евгения Трибунская</span>
+                <span>Евгения Трибунская</span>
+                <span>Евгения Трибунская</span>
+                <span>Евгения Трибунская</span>
+                <span>Евгения Трибунская</span>
+                <span>Евгения Трибунская</span>
+                <span>Евгения Трибунская</span>
+                <span>Евгения Трибунская</span>
+                <span>Евгения Трибунская</span>
+                <span>Евгения Трибунская</span>
+            </div>
+        </div>
+    <div class="container">
+        
+
+        <div class="content">
+            <div class="left">
+                <h2 class="h2">
+                    <span class="yellow"> Вместе мы найдём </span>
+                    <br /> решения для достижения ваших финансовых целей
+                </h2>
+
+                <p class="t20">
+                    Мы внимательно выслушаем ваши пожелания, проанализируем
+                    текущие возможности и предложим индивидуальные решения,
+                    которые максимально соответствуют вашим потребностям. Вместе
+                    мы разработаем стратегию, облегчающую путь к финансовой
+                    стабильности и успеху, будь то накопления, инвестиции или
+                    планирование будущего. Доверьтесь профессионалам — и вместе
+                    мы добьёмся больших побед!
+                </p>
+            </div>
+
+            <div class="right">
+                <div class="rItem">
+                    <h3 class="rTitle">20 лет</h3>
+                    <p class="rText">Опыта в финансовой индустрии</p>
+                </div>
+                 <div class="rItem">
+                    <h3 class="rTitle">99%</h3>
+                    <p class="rText">Довольных клиентах</p>
+                </div>
+                 <div class="rItem">
+                    <h3 class="rTitle">10 000</h3>
+                    <p class="rText">Выпущеных студентов </p>
+                </div>
+                 <div class="rItem">
+                    <h3 class="rTitle">2х</h3>
+                    <p class="rText">Увеличение вашей прибыли в среднем</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    /* Стили для бегущей строки */
+    .marquee {
+        width: 100%;
+        overflow: hidden;
+        padding: 15px 0;
+        margin-top: 40px; /* Отступ сверху, если нужен */
+    }
+
+    .marquee__inner {
+        display: flex;
+        animation: scroll 30s linear infinite; /* Управление скоростью здесь */
+        white-space: nowrap;
+    }
+
+    .marquee__inner span {
+       font-family: var(--second-family);
+font-weight: 700;
+font-size: 150px;
+line-height: 90%;
+text-transform: uppercase;
+color: #101010;
+    }
+
+    @keyframes scroll {
+        0% {
+            transform: translateX(0);
+        }
+        100% {
+            transform: translateX(-50%); /* Перемещаемся ровно на половину ширины, т.к. у нас 10 повторов */
+        }
+    }
+
+    /* Ваши исходные стили (я немного подправил right grid) */
+    .content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 150px;
+        padding: 60px 0;
+    }
+
+    .right {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr); /* Исправлено: 2 колонки равной ширины */
+        gap: 20px;
+        row-gap: 85px;
+    }
+
+    .rTitle {
+        font-family: var(--second-family);
+        font-weight: 700;
+        font-size: 40px;
+        line-height: 110%;
+        text-transform: uppercase;
+        color: var(--zheltyy);
+        padding-bottom: 20px;
+        border-bottom: 1px solid #ffffff41;
+        
+    }
+
+    .rText {
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 120%;
+        color: #939393;
+        padding-top: 15px;
+    }
+</style>

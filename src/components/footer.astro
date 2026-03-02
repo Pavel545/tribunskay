@@ -1,0 +1,91 @@
+---
+import { NAVIGATION, SOCIAL_LINKS } from "../config/constants";
+
+import Fos from "./react/fos/fos";
+---
+
+<footer class="footer" id="footer">
+    <div class="container">
+        <div class="content">
+            <div class="footContact">
+                <div class="logo">
+                    <img src="/logo.png" alt="" />
+                </div>
+
+                <nav class="linkBox">
+                    {
+                        NAVIGATION.map((item) => (
+                            <a class="linkF" href={item.url}>
+                                {item.text}
+                            </a>
+                        ))
+                    }
+                </nav>
+
+                <nav class="linkBox">
+                    <a href={SOCIAL_LINKS.local.src}
+                        >{SOCIAL_LINKS.local.text}</a
+                    >
+                    <a href={SOCIAL_LINKS.tel.src}>{SOCIAL_LINKS.tel.text}</a>
+                    <a href={SOCIAL_LINKS.email.src}
+                        >{SOCIAL_LINKS.email.text}</a
+                    >
+                </nav>
+            </div>
+
+            <div class="footFos">
+                <Fos/>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<style>
+    .footer {
+        background: #161616;
+    }
+
+    .content {
+        
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+    }
+
+    .linkBox {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        
+
+        margin-top: 30px;
+    }
+
+    .footContact {
+        padding: 47px 0;
+
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    .logo {
+        width: 120px;
+        height: 120px;
+    }
+
+    .logo img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .footFos {
+        padding: 47px 0;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #121212;
+
+    }
+</style>

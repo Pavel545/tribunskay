@@ -1,0 +1,35 @@
+---
+import VideoBackground from "./ui/VideoBackground.astro";
+---
+
+<VideoBackground id="aCell" videoSrc="">
+    <div class="content">
+        <h2 class="title">
+            <span class="yellow"> ДоверьтеСЬ профессионалам</span>
+            <br />вместе мы добьёмся <br /> финансовых результатов
+        </h2>
+
+        <button class="butt"> Записаться на консультацию </button>
+    </div>
+</VideoBackground>
+
+<style>
+    .content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .title {
+        font-family: var(--second-family);
+        font-weight: 700;
+        font-size: 75px;
+        line-height: 100%;
+        text-transform: uppercase;
+        text-align: center;
+        color: var(--belyy);
+
+        margin-bottom: 70px;
+    }
+</style>

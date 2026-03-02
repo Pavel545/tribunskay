@@ -1,0 +1,35 @@
+---
+import VideoBackground from "./ui/VideoBackground.astro";
+---
+
+<VideoBackground id="finAudit" videoSrc="">
+    <div class="content">
+        <h2 class="title">
+            <span class="yellow"> Финансовый аудит</span>
+             вашей компании
+        </h2>
+
+        <a href="/audit" class="butt"> Перейти на страницу </a>
+    </div>
+</VideoBackground>
+
+<style>
+    .content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .title {
+        font-family: var(--second-family);
+        font-weight: 700;
+        font-size: 75px;
+        line-height: 100%;
+        text-transform: uppercase;
+        text-align: center;
+        color: var(--belyy);
+
+        margin-bottom: 70px;
+    }
+</style>

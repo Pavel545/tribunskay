@@ -1,0 +1,82 @@
+---
+import TrainingCard from "./ui/TrainingCard.astro"
+
+
+const cards = [
+    {
+        title:'University',
+        who:'Студенты и абитуриенты',
+        color:'#ffba08',
+        item:[
+            'Финансовая грамотность',
+            'Поиск и поддержка талантов'
+        ]
+    },
+    {
+        title:'Soft Skills',
+        who:'Собственники и управленцы',
+        color:'#f48c06',
+
+        item:[
+            'Трансформация мышления',
+            'Финансовые игры',
+            'Тренинги по энергии денег',
+        ]
+    },
+    {
+        title:'Bridge',
+        who:'Личностный рост',
+        color:'var(--oranzhevyy)',
+
+        item:[
+            'Создание личного капитала',
+            'Стратегии сохранения',
+            'Приумножения инвестиций'
+        ]
+    },
+    {
+        title:'Hard Skills',
+        who:'Для бизнеса всех форм',
+        color:'#d00000',
+
+        item:[
+            'Глубокий анализ отчетов',
+            'Внедрение систем учета',
+            'Корпоративные финансы'
+        ]
+    }
+]
+---
+
+
+<section class="TrainingMain" id="TrainingMain">
+    <div class="container">
+        <h2 class="h2">
+            Общественная <span class="yellow">деятельность</span> 
+        </h2>
+
+        <div class="content">
+            {cards.map((e,i)=>(
+                <TrainingCard title={e.title} color={e.color} item={e.item} who={e.who} />
+            ))}
+        </div>
+    </div>
+</section>
+
+
+
+<style>
+
+    .TrainingMain{
+        padding: 130px 0;
+
+        border-top: 1px solid #ffffff37;
+    }
+    .content{
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+
+        gap: 20px;
+        padding: 120px 0;
+    }
+</style>

@@ -1,11 +1,31 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
+import Hero from '../components/hero.astro';
+import About from '../components/about.astro';
+import ACell from '../components/aCell.astro';
+import Evg from '../components/evgenia.astro';
+import Activities from '../components/activities.astro';
+import FinAudit from '../components/finAudit.astro';
+import TrainingMain from '../components/TrainingMain.astro';
+import Slider from '../components/ui/Slider.astro';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+
+
+const images: string[] = [
+  '/img/slider/1.jpg',
+  '/img/slider/2.jpg',
+  '/img/slider/3.jpg',
+];
 ---
 
 <Layout>
-	<Welcome />
+	<Hero/>
+	<About/>
+	<ACell/>
+
+	<Evg/>
+	<Activities/>
+	<Slider images={images}/>
+	<FinAudit />
+	<TrainingMain/>
 </Layout>
