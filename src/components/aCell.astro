@@ -2,7 +2,7 @@
 import VideoBackground from "./ui/VideoBackground.astro";
 ---
 
-<VideoBackground id="aCell" videoSrc="">
+<VideoBackground id="aCell" videoSrc="/video/fon1.mp4">
     <div class="content">
         <h2 class="title">
             <span class="yellow"> ДоверьтеСЬ профессионалам</span>
@@ -24,7 +24,7 @@ import VideoBackground from "./ui/VideoBackground.astro";
     .title {
         font-family: var(--second-family);
         font-weight: 700;
-        font-size: 75px;
+        font-size: clamp(32px, 4vw, 75px);
         line-height: 100%;
         text-transform: uppercase;
         text-align: center;

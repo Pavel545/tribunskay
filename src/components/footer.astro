@@ -23,18 +23,20 @@ import Fos from "./react/fos/fos";
                 </nav>
 
                 <nav class="linkBox">
-                    <a href={SOCIAL_LINKS.local.src}
+                    <a class="linkF" href={SOCIAL_LINKS.local.src}
                         >{SOCIAL_LINKS.local.text}</a
                     >
-                    <a href={SOCIAL_LINKS.tel.src}>{SOCIAL_LINKS.tel.text}</a>
-                    <a href={SOCIAL_LINKS.email.src}
+                    <a class="linkF" href={SOCIAL_LINKS.tel.src}
+                        >{SOCIAL_LINKS.tel.text}</a
+                    >
+                    <a class="linkF" href={SOCIAL_LINKS.email.src}
                         >{SOCIAL_LINKS.email.text}</a
                     >
                 </nav>
             </div>
 
             <div class="footFos">
-                <Fos/>
+                <Fos />
             </div>
         </div>
     </div>
@@ -46,26 +48,28 @@ import Fos from "./react/fos/fos";
     }
 
     .content {
-        
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: 30px;
+        gap: clamp(20px, 4vw, 30px);
     }
 
     .linkBox {
         display: flex;
         flex-direction: column;
         gap: 15px;
-        
 
         margin-top: 30px;
+    }
+
+    .linkF {
+        color: var(--svetlo-seryy);
     }
 
     .footContact {
         padding: 47px 0;
 
         display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
     }
 
     .logo {
@@ -85,7 +89,54 @@ import Fos from "./react/fos/fos";
         display: flex;
         align-items: center;
         justify-content: center;
+        margin: 0;
         background: #121212;
+    }
 
+    /* =========================
+   TABLET
+========================= */
+    @media (max-width: 1024px) {
+        .content {
+            grid-template-columns: 1fr;
+        }
+
+        .footContact {
+            grid-template-columns: 1fr 1fr;
+            gap: clamp(10px, 4vw, 30px);
+        }
+
+        .logo {
+            width: 90px;
+            height: 90px;
+        }
+
+        .footFos {
+            padding: 30px 0;
+        }
+    }
+
+    /* =========================
+   MOBILE
+========================= */
+    @media (max-width: 640px) {
+        .footContact {
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        .linkBox {
+            margin-top: 10px;
+            gap: 10px;
+        }
+
+        .logo {
+            width: 70px;
+            height: 70px;
+        }
+
+        .content {
+            gap: 20px;
+        }
     }
 </style>

@@ -2,11 +2,11 @@
 import VideoBackground from "./ui/VideoBackground.astro";
 ---
 
-<VideoBackground id="finAudit" videoSrc="">
+<VideoBackground id="finAudit" videoSrc="/video/fon2.mp4">
     <div class="content">
         <h2 class="title">
             <span class="yellow"> Финансовый аудит</span>
-             вашей компании
+            вашей компании
         </h2>
 
         <a href="/audit" class="butt"> Перейти на страницу </a>
@@ -24,7 +24,8 @@ import VideoBackground from "./ui/VideoBackground.astro";
     .title {
         font-family: var(--second-family);
         font-weight: 700;
-        font-size: 75px;
+        font-size: clamp(32px, 4vw, 75px);
+
         line-height: 100%;
         text-transform: uppercase;
         text-align: center;

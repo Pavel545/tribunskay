@@ -7,6 +7,10 @@
     --oranzhevyy: #e85d04;
     --temnyy: #282631;
     --chernyy: #0a0a0a;
+
+
+
+    --color: var(--belyy);
 }
 
 @font-face {
@@ -233,7 +237,7 @@ a,
 li {
     text-decoration: none;
     list-style: none;
-    color: var(--belyy);
+    color: var(--color);
 }
 
 
@@ -249,15 +253,14 @@ li {
 
     font-family: var(--second-family);
     font-weight: 700;
-    font-size: 22px;
+    font-size: clamp(14px, 1.2vw, 22px);
     line-height: 120%;
     text-transform: uppercase;
     color: var(--col);
 
     background: var(--bg);
     border-radius: 1px;
-    padding: 25px 30px;
-
+    padding: clamp(10px, 1vw, 25px) clamp(16px, 2vw, 30px);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -287,13 +290,13 @@ li {
     font-size: 40px;
     line-height: 110%;
     text-transform: uppercase;
-    color: var(--belyy);
+    color: var(--color);
     margin-bottom: 30px;
 }
 
 .t20 {
     font-weight: 400;
-    font-size: 20px;
+    font-size: clamp(14px, 1.2vw, 20px);
     line-height: 130%;
     color: var(--svetlo-seryy);
 }

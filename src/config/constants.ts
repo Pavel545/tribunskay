@@ -2,7 +2,7 @@
 
 export const NAVIGATION = [
   { text: 'О Евгении', url: '/' },
-  { text: 'Финансовый аудит', url: '/about' },
+  { text: 'Финансовый аудит', url: '/financial-audit' },
   { text: 'Обучение', url: '/blog' },
   { text: 'Контакты', url: '/contact' }
 ] as const;

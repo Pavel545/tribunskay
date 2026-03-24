@@ -1,25 +1,24 @@
 ---
 
 ---
+
 <section class="about" id="about">
     <!-- Бегущая строка -->
-        <div class="marquee">
-            <div class="marquee__inner">
-                <span>Евгения Трибунская</span>
-                <span>Евгения Трибунская</span>
-                <span>Евгения Трибунская</span>
-                <span>Евгения Трибунская</span>
-                <span>Евгения Трибунская</span>
-                <span>Евгения Трибунская</span>
-                <span>Евгения Трибунская</span>
-                <span>Евгения Трибунская</span>
-                <span>Евгения Трибунская</span>
-                <span>Евгения Трибунская</span>
-            </div>
+    <div class="marquee">
+        <div class="marquee__inner">
+            <span>Евгения Трибунская</span>
+            <span>Евгения Трибунская</span>
+            <span>Евгения Трибунская</span>
+            <span>Евгения Трибунская</span>
+            <span>Евгения Трибунская</span>
+            <span>Евгения Трибунская</span>
+            <span>Евгения Трибунская</span>
+            <span>Евгения Трибунская</span>
+            <span>Евгения Трибунская</span>
+            <span>Евгения Трибунская</span>
         </div>
+    </div>
     <div class="container">
-        
-
         <div class="content">
             <div class="left">
                 <h2 class="h2">
@@ -43,15 +42,15 @@
                     <h3 class="rTitle">20 лет</h3>
                     <p class="rText">Опыта в финансовой индустрии</p>
                 </div>
-                 <div class="rItem">
+                <div class="rItem">
                     <h3 class="rTitle">99%</h3>
                     <p class="rText">Довольных клиентах</p>
                 </div>
-                 <div class="rItem">
+                <div class="rItem">
                     <h3 class="rTitle">10 000</h3>
-                    <p class="rText">Выпущеных студентов </p>
+                    <p class="rText">Выпущеных студентов</p>
                 </div>
-                 <div class="rItem">
+                <div class="rItem">
                     <h3 class="rTitle">2х</h3>
                     <p class="rText">Увеличение вашей прибыли в среднем</p>
                 </div>
@@ -76,12 +75,12 @@
     }
 
     .marquee__inner span {
-       font-family: var(--second-family);
-font-weight: 700;
-font-size: 150px;
-line-height: 90%;
-text-transform: uppercase;
-color: #101010;
+        font-family: var(--second-family);
+        font-weight: 700;
+        font-size: clamp(40px, 8vw, 150px);
+        line-height: 90%;
+        text-transform: uppercase;
+        color: #101010;
     }
 
     @keyframes scroll {
@@ -89,7 +88,9 @@ color: #101010;
             transform: translateX(0);
         }
         100% {
-            transform: translateX(-50%); /* Перемещаемся ровно на половину ширины, т.к. у нас 10 повторов */
+            transform: translateX(
+                -50%
+            ); /* Перемещаемся ровно на половину ширины, т.к. у нас 10 повторов */
         }
     }
 
@@ -97,15 +98,18 @@ color: #101010;
     .content {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: 150px;
+       gap: clamp(40px, 8vw, 150px);
         padding: 60px 0;
     }
 
     .right {
         display: grid;
-        grid-template-columns: repeat(2, 1fr); /* Исправлено: 2 колонки равной ширины */
+        grid-template-columns: repeat(
+            2,
+            1fr
+        ); /* Исправлено: 2 колонки равной ширины */
         gap: 20px;
-        row-gap: 85px;
+        row-gap: clamp(30px, 6vw, 85px);
     }
 
     .rTitle {
@@ -117,7 +121,6 @@ color: #101010;
         color: var(--zheltyy);
         padding-bottom: 20px;
         border-bottom: 1px solid #ffffff41;
-        
     }
 
     .rText {
@@ -127,4 +130,66 @@ color: #101010;
         color: #939393;
         padding-top: 15px;
     }
+
+    /* =========================
+   TABLET
+========================= */
+@media (max-width: 1024px) {
+    .content {
+        grid-template-columns: 1fr;
+        gap: 60px;
+        padding: 40px 0;
+    }
+
+    .left {
+        max-width: 600px;
+    }
+
+    .right {
+        grid-template-columns: repeat(2, 1fr);
+        row-gap: 40px;
+    }
+
+    .marquee__inner span {
+        font-size: clamp(60px, 10vw, 120px);
+        will-change: transform;
+        animation-play-state: paused;
+    }
+}
+
+/* =========================
+   MOBILE
+========================= */
+@media (max-width: 640px) {
+    .content {
+        gap: 40px;
+        padding: 30px 0;
+    }
+
+    .right {
+        grid-template-columns: 1fr;
+        row-gap: 30px;
+    }
+
+    .rItem {
+        text-align: center;
+    }
+
+    .rTitle {
+        font-size: clamp(24px, 6vw, 32px);
+    }
+
+    .rText {
+        font-size: 14px;
+    }
+
+    .marquee {
+        margin-top: 20px;
+        padding: 10px 0;
+    }
+
+    .marquee__inner span {
+        font-size: clamp(40px, 12vw, 80px);
+    }
+}
 </style>

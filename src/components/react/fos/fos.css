@@ -1,6 +1,7 @@
 .fosBox {
-    margin: 50px;
-    max-width: 415px;
+    margin: clamp(20px, 5vw, 50px);
+    max-width: 420px;
+    width: 100%;
     position: relative;
 }
 
@@ -15,10 +16,10 @@
     all: unset;
     font-family: var(--font-family);
     font-weight: 400;
-    font-size: 14px;
+    font-size: clamp(14px, 1.2vw, 16px);
+    padding: clamp(12px, 2vw, 16px) 0;
     line-height: 120%;
     color: var(--belyy);
-    padding: 16px 0;
     width: 100%;
     border-bottom: 1px solid var(--svetlo-siniy);
     transition: border-color 0.3s;
@@ -26,6 +27,7 @@
 }
 
 .inputFos:focus {
+    outline: none;
     border-bottom-color: var(--zheltyy);
 }
 
@@ -46,10 +48,10 @@
     width: 100%;
     background: var(--zheltyy);
     border: none;
-    padding: 16px;
     font-family: var(--font-family);
     font-weight: 700;
-    font-size: 16px;
+    font-size: clamp(14px, 1.2vw, 16px);
+    padding: clamp(12px, 2vw, 16px);
     color: var(--temnyy);
     cursor: pointer;
     transition: all 0.3s;
@@ -69,7 +71,7 @@
 .title {
     font-family: var(--second-family);
     font-weight: 700;
-    font-size: 30px;
+    font-size: clamp(22px, 3vw, 30px);
     line-height: 110%;
     text-transform: uppercase;
     color: var(--belyy);
@@ -78,7 +80,7 @@
 
 .ps {
     font-weight: 400;
-    font-size: 16px;
+    font-size: clamp(14px, 1.4vw, 16px);
     line-height: 120%;
     color: var(--belyy);
     display: block;
@@ -117,16 +119,16 @@
     transition: all 0.2s;
 }
 
-.checkbox-container:hover input:not(:disabled) ~ .checkmark {
+.checkbox-container:hover input:not(:disabled)~.checkmark {
     border-color: var(--zheltyy);
 }
 
-.checkbox-container input:checked ~ .checkmark {
+.checkbox-container input:checked~.checkmark {
     background-color: var(--zheltyy);
     border-color: var(--zheltyy);
 }
 
-.checkbox-container input:disabled ~ .checkmark {
+.checkbox-container input:disabled~.checkmark {
     opacity: 0.5;
     cursor: not-allowed;
 }
@@ -137,7 +139,7 @@
     display: none;
 }
 
-.checkbox-container input:checked ~ .checkmark:after {
+.checkbox-container input:checked~.checkmark:after {
     display: block;
 }
 
@@ -153,23 +155,26 @@
 
 .checkbox-text {
     font-family: var(--font-family);
-    font-size: 14px;
+    font-size: clamp(12px, 1.2vw, 14px);
     color: var(--belyy);
 }
 
 .success-message {
     position: fixed;
     top: 20px;
-    right: 20px;
     background: var(--zheltyy);
     color: var(--temnyy);
     padding: 16px 24px;
     border-radius: 8px;
     font-weight: 600;
-    transform: translateX(150%);
     transition: transform 0.3s;
     z-index: 1000;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+
+    right: 10px;
+    left: 10px;
+    transform: translateY(-150%);
 }
 
 .success-message.show {

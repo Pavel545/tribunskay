@@ -3,50 +3,59 @@ import Card from "./ui/card.astro";
 
 const cards = [
     {
-        icon:'/icons/activities/1.png',
-        Text:'Вклад в формирование финансовой грамотности у будущих поколений'
-    },{
-        icon:'/icons/activities/2.png',
-        Text:'Спикер по финансовой грамотности в высших учебных заведениях'
-    },{
-        icon:'/icons/activities/3.png',
-        Text:'Публикую статьи и полезные материалы по финансовому планированию в СМИ и блогах'
-    },{
-        icon:'/icons/activities/4.png',
-        Text:'Организую мастер-классы и тренинги для молодежи и предпринимателей'
+        icon: "/icons/activities/1.png",
+        Text: "Вклад в формирование финансовой грамотности у будущих поколений",
     },
-]
+    {
+        icon: "/icons/activities/2.png",
+        Text: "Спикер по финансовой грамотности в высших учебных заведениях",
+    },
+    {
+        icon: "/icons/activities/3.png",
+        Text: "Публикую статьи и полезные материалы по финансовому планированию в СМИ и блогах",
+    },
+    {
+        icon: "/icons/activities/4.png",
+        Text: "Организую мастер-классы и тренинги для молодежи и предпринимателей",
+    },
+];
 ---
-
 
 <section class="activities" id="activities">
     <div class="container">
         <h2 class="h2">
-            Общественная <span class="yellow">деятельность</span> 
+            Общественная <span class="yellow">деятельность</span>
         </h2>
 
         <div class="content">
-            {cards.map((e,i)=>(
-                <Card srcIcon={e.icon} text={e.Text} />
-            ))}
+            {cards.map((e, i) => <Card srcIcon={e.icon} text={e.Text} />)}
         </div>
     </div>
 </section>
 
-
-
 <style>
-
-    .activities{
+    .activities {
         padding: 130px 0;
 
         border-top: 1px solid #ffffff37;
     }
-    .content{
+    .content {
         display: grid;
-        grid-template-columns: repeat(4, 1fr);
+        grid-template-columns: repeat(auto-fit, minmax(160px,1fr));
 
-        gap: 20px;
+        gap: 10px;
         padding: 120px 0;
+    }
+
+    @media (max-width: 1024px) {
+        .content {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media (max-width: 640px) {
+        .content {
+            grid-template-columns: repeat(1, 1fr);
+        }
     }
 </style>

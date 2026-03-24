@@ -1,0 +1,209 @@
+---
+
+---
+
+<section class="audit">
+  <div class="container">
+    <h2 class="h2">
+      ЗАЧЕМ ПРОХОДИТЬ <br />
+      <span class="yellow">ФИНАНСОВЫЙ АУДИТ</span>
+    </h2>
+
+    <div class="grid">
+      <article class="card card--01">
+        <div class="num">01</div>
+        <h3 class="card__title">Разобраться<br />с прибылью бизнеса</h3>
+        <p class="card__text">
+          В точности узнать, сколько на самом деле зарабатывает компания и
+          сколько денег на счетах действительно принадлежит вам. Актуально для
+          бизнесов с большим количеством денежных потоков, за которыми сложно
+          уследить
+        </p>
+      </article>
+
+      <article class="card card--02">
+        <div class="num">02</div>
+        <h3 class="card__title">Понять финансовую<br />отдачу действий</h3>
+        <p class="card__text">
+          Оценить, как на чистую прибыль влияют сотрудники, отделы, подрядчики и
+          т.д
+        </p>
+      </article>
+
+      <article class="card card--03">
+        <div class="num">03</div>
+        <div class="card__row">
+          <h3 class="card__title">
+            Делегировать<br />управленческий<br />учет
+          </h3>
+          <p class="card__text card__text--right">
+            Передать отчётность профильному специалисту и добиться, чтобы в
+            компании закрепился зрелый подход к работе с финансами: понятные
+            отчёты, аналитика показателей, планирование
+          </p>
+        </div>
+      </article>
+
+      <article class="card card--04">
+        <div class="num">04</div>
+        <h3 class="card__title">Настроить финансовое<br />планирование</h3>
+        <p class="card__text">
+          Ввести финансовую дисциплину, избавиться от ненужных и несвоевременных
+          трат
+        </p>
+      </article>
+
+      <article class="card card--05">
+        <div class="num">05</div>
+        <h3 class="card__title">Выбраться<br />из убытков</h3>
+        <p class="card__text">
+          Запланировать конкретные действия по выводу бизнеса в стабильную
+          прибыль
+        </p>
+      </article>
+
+      <article class="card card--06">
+        <div class="num">06</div>
+        <h3 class="card__title">Избавиться от кассовых<br />разрывов</h3>
+        <p class="card__text">
+          Построить систему, чтобы на счетах всегда были деньги на зарплаты и
+          выплаты контрагентам
+        </p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<style>
+  .audit {
+    background: var(--svetlyy);
+    padding: clamp(28px, 5vw, 120px);
+  }
+
+  .audit__head {
+    margin-bottom: clamp(18px, 2vw, 26px);
+  }
+
+  /* GRID (как на макете) */
+  .grid {
+    display: grid;
+    grid-template-columns: 1.05fr 1fr 1fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 18px;
+    margin-top: 40px;
+  }
+
+  .card {
+    background: var(--belyy);
+    border-radius: 10px;
+    padding: 22px 22px 20px;
+    box-shadow: 0 8px 24px rgba(10, 10, 10, 0.06);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .num {
+    font-family: var(--second-family);
+    font-weight: 700;
+    font-size: 75px;
+    line-height: 100%;
+    text-transform: uppercase;
+    color: var(--zheltyy);
+    opacity: 0.3;
+  }
+
+  .card__title {
+    margin: 0 0 21px;
+    font-family: var(--font-family);
+    font-weight: 400;
+    font-size: 25px;
+    line-height: 120%;
+    color: #000;
+  }
+
+  .card__text {
+    font-family: var(--font-family);
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 120%;
+    color: #787878;
+  }
+
+  /* Позиционирование карточек */
+  .card--01 {
+    grid-column: 1 / 2;
+    grid-row: 1 / 3; /* на 2 ряда */
+    padding-top: 26px;
+  }
+
+  .card--02 {
+    grid-column: 2 / 3;
+    grid-row: 1 / 2;
+  }
+
+  .card--04 {
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
+  }
+
+  .card--03 {
+    grid-column: 3 / 5; /* на 2 колонки */
+    grid-row: 1 / 2;
+  }
+
+  .card--05 {
+    grid-column: 3 / 4;
+    grid-row: 2 / 3;
+  }
+
+  .card--06 {
+    grid-column: 4 / 5;
+    grid-row: 2 / 3;
+  }
+
+  .card__row {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 16px;
+    align-items: start;
+  }
+
+  .card__text--right {
+    font-size: 12px;
+    line-height: 1.5;
+    color: color-mix(in srgb, var(--temnyy) 50%, var(--svetlo-seryy));
+    margin-top: 10px;
+  }
+
+  /* Адаптив: аккуратно складываем */
+  @media (max-width: 980px) {
+    .grid {
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto;
+    }
+
+    .card--01,
+    .card--02,
+    .card--03,
+    .card--04,
+    .card--05,
+    .card--06 {
+      grid-column: auto;
+      grid-row: auto;
+    }
+
+    .card__row {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+
+    .num {
+      font-size: 44px;
+    }
+  }
+</style>

@@ -42,7 +42,7 @@
 
 <style>
     .evg{
-        padding:130px 0 ;
+        padding:clamp(30px, 8vw, 130px) 0 ;
     }
     .content {
         display: grid;
@@ -72,4 +72,12 @@
         margin-top: 85px;
         width: fit-content;
     }
+
+    @media (max-width: 1024px) {
+        .content{
+        grid-template-columns: repeat(1, 1fr);
+
+        }
+    }
+
 </style>

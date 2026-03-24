@@ -18,8 +18,8 @@ const QuestionForm: React.FC = () => {
         message: '',
         consent: false
     });
-    
-      const successTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+    const successTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
     // Очистка таймера при размонтировании
     useEffect(() => {
@@ -33,14 +33,14 @@ const QuestionForm: React.FC = () => {
     // Маска для телефона
     const handlePhoneInput = (e: ChangeEvent<HTMLInputElement>): void => {
         let value = e.target.value.replace(/\D/g, '');
-        
+
         // Ограничиваем длину номера
         if (value.length > 11) {
             value = value.slice(0, 11);
         }
-        
+
         const match = value.match(/(\d{0,1})(\d{0,3})(\d{0,3})(\d{0,2})(\d{0,2})/);
-        
+
         if (match) {
             let formatted = '';
             if (match[2]) {
@@ -59,7 +59,7 @@ const QuestionForm: React.FC = () => {
             } else {
                 formatted = '+7 (';
             }
-            
+
             setFormData(prev => ({ ...prev, tel: formatted }));
         }
     };
@@ -67,13 +67,13 @@ const QuestionForm: React.FC = () => {
     // Обработка изменений в полях
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>): void => {
         const { name, value, type, checked } = e.target;
-        
+
         if (name === 'tel') {
             handlePhoneInput(e);
         } else {
-            setFormData(prev => ({ 
-                ...prev, 
-                [name]: type === 'checkbox' ? checked : value 
+            setFormData(prev => ({
+                ...prev,
+                [name]: type === 'checkbox' ? checked : value
             }));
         }
 
@@ -86,24 +86,24 @@ const QuestionForm: React.FC = () => {
     // Валидация формы
     const validateForm = (): boolean => {
         const newErrors: Record<string, boolean> = {};
-        
+
         if (!formData.name.trim()) {
             newErrors.name = true;
         }
-        
+
         const phoneDigits = formData.tel.replace(/\D/g, '');
         if (phoneDigits.length < 11) {
             newErrors.tel = true;
         }
-        
+
         if (!formData.message.trim()) {
             newErrors.message = true;
         }
-        
+
         if (!formData.consent) {
             newErrors.consent = true;
         }
-        
+
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
@@ -114,9 +114,9 @@ const QuestionForm: React.FC = () => {
         if (successTimeoutRef.current) {
             clearTimeout(successTimeoutRef.current);
         }
-        
+
         setShowSuccess(true);
-        
+
         // Устанавливаем новый таймер
         successTimeoutRef.current = setTimeout(() => {
             setShowSuccess(false);
@@ -126,20 +126,20 @@ const QuestionForm: React.FC = () => {
     // Отправка формы
     const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
         e.preventDefault();
-        
+
         if (!validateForm()) {
             return;
         }
-        
+
         setIsSubmitting(true);
-        
+
         try {
             // Имитация отправки с задержкой
             await new Promise(resolve => setTimeout(resolve, 1500));
-            
+
             // Показываем сообщение об успехе
             showSuccessMessage();
-            
+
             // Очищаем форму
             setFormData({
                 name: '',
@@ -147,7 +147,7 @@ const QuestionForm: React.FC = () => {
                 message: '',
                 consent: false
             });
-            
+
         } catch (error) {
             console.error('Ошибка отправки:', error);
             alert('Произошла ошибка. Попробуйте позже.');
@@ -173,7 +173,7 @@ const QuestionForm: React.FC = () => {
                     onChange={handleInputChange}
                     disabled={isSubmitting}
                 />
-                
+
                 <input
                     className={`inputFos ${errors.tel ? 'error' : ''}`}
                     name="tel"
@@ -183,7 +183,7 @@ const QuestionForm: React.FC = () => {
                     onChange={handleInputChange}
                     disabled={isSubmitting}
                 />
-                
+
                 <input
                     className={`inputFos ${errors.message ? 'error' : ''}`}
                     name="message"
@@ -193,7 +193,7 @@ const QuestionForm: React.FC = () => {
                     onChange={handleInputChange}
                     disabled={isSubmitting}
                 />
-                
+
                 <label className={`checkbox-container ${errors.consent ? 'error' : ''}`}>
                     <input
                         type="checkbox"
@@ -208,8 +208,8 @@ const QuestionForm: React.FC = () => {
                     </span>
                 </label>
 
-                <button 
-                    className="butt fosBut" 
+                <button
+                    className="butt fosBut"
                     type="submit"
                     disabled={isSubmitting}
                 >
