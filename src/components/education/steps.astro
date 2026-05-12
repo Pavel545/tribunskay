@@ -1,0 +1,166 @@
+---
+
+---
+
+<section class="steps" id="steps">
+    <div class="container">
+        <h2 class="h2 stepsTitle">
+            Ваш бизнес заслуживает финансового директора<br />
+            <span class="yellow"> Станьте им сами </span>
+        </h2>
+
+        <p class="stepsPs">4 шага к финансовой ясности</p>
+
+        <div class="stepsContent">
+            <div class="stepItemText item1">
+                <div class="count">01</div>
+                <h3 class="stepItemTextTitle">
+                    P&L: Отчет о прибылях и убытках
+                </h3>
+                <p class="stepItemTextP">
+                    Учимся правильно считать реальную прибыль, а не оборот.
+                    Поймете рентабельность
+                </p>
+            </div>
+
+            <div class="stepItemText item2">
+                <div class="count">02</div>
+                <h3 class="stepItemTextTitle">
+                    ДДС: Отчет о движении денежных средств
+                </h3>
+                <p class="stepItemTextP">
+                    Учет каждого рубля. Карта ваших денежных потоков. Инструмент
+                    №1 против кассовых разрывов
+                </p>
+            </div>
+
+            <div class="stepItemImg item3">
+                <img src="/img/steps/1.jpg" alt="" />
+            </div>
+
+            <div class="stepItemImg item4">
+                <img src="/img/steps/2.jpg" alt="" />
+            </div>
+
+            <div class="stepItemText item5">
+                <div class="count">03</div>
+                <h3 class="stepItemTextTitle">
+                    Баланс: Поймете реальную стоимость вашего бизнеса
+                </h3>
+                <p class="stepItemTextP">
+                    Активы, пассивы, обязательства. «Язык» инвесторов и банков
+                </p>
+            </div>
+
+            <div class="stepItemText item6">
+                <div class="count">04</div>
+                <h3 class="stepItemTextTitle">Бюджетирование и оптимизация</h3>
+                <p class="stepItemTextP">
+                    Как составлять план на год, внедрять KPI и находить скрытые
+                    точки роста прибыли. Корпоративные финансы без воды
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .stepsContent {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: clamp(10px, 3vw, 20px);
+        margin-top: 60px;
+        grid-template-areas:
+            "item1 item2 item3 item3"
+            "item4 item4 item5 item6";
+    }
+
+    .item1 {
+        grid-area: item1;
+    }
+    .item2 {
+        grid-area: item2;
+    }
+    .item3 {
+        grid-area: item3;
+    }
+    .item4 {
+        grid-area: item4;
+    }
+    .item5 {
+        grid-area: item5;
+    }
+    .item6 {
+        grid-area: item6;
+    }
+
+    .stepItemImg img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    /* Адаптив */
+    @media (max-width: 768px) {
+        .stepsContent {
+            grid-template-columns: 1fr;
+            grid-template-areas:
+                "item1"
+                "item2"
+                "item3"
+                "item4"
+                "item5"
+                "item6";
+        }
+    }
+    .stepItemTextP {
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 120%;
+        letter-spacing: 0%;
+        color: var(--seryy);
+    }
+    .stepItemTextTitle {
+        font-weight: 400;
+        font-size: 25px;
+        line-height: 120%;
+        letter-spacing: 0%;
+    }
+    .count {
+        font-family: var(--second-family);
+        font-weight: 700;
+        font-style: Bold;
+        font-size: 40px;
+        line-height: 110.00000000000001%;
+        letter-spacing: 0%;
+        text-transform: uppercase;
+        color: var(--temnyy);
+        opacity: 0.5;
+    }
+
+    .stepItemText {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        padding: 30px;
+        background-color: var(--belyy);
+    }
+    .stepsTitle {
+        text-align: center;
+    }
+
+
+
+    .stepsPs {
+        font-weight: 400;
+        font-size: 25px;
+        line-height: 120%;
+        letter-spacing: 0%;
+        text-align: center;
+        color: var(--seryy);
+    }
+    .steps {
+        background-color: var(--svetlyy);
+        padding: 160px 0;
+    }
+</style>

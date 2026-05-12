@@ -133,48 +133,41 @@ const {
 </style>
 
 <script>
-  interface SliderElements {
-    slider: HTMLElement;
-    container: HTMLElement;
-    track: HTMLElement;
-    slides: NodeListOf<Element>;
-    dots: NodeListOf<Element>;
-  }
-
   class Slider {
     private slider: HTMLElement;
-    private container: HTMLElement;
     private track: HTMLElement;
-    private slides: NodeListOf<Element>;
-    private dots: NodeListOf<Element>;
+    private slides: HTMLElement[];
+    private dots: HTMLElement[];
     
     private currentIndex: number = 0;
     private slideCount: number;
     private startX: number = 0;
-    private currentX: number = 0;
     private isDragging: boolean = false;
     private dragStartTime: number = 0;
     private autoplayTimer: number | null = null;
+    private resizeObserver: ResizeObserver | null = null;
     
     private autoplayDelay: number;
     private pauseOnInteraction: number;
+    private isAutoplayPaused: boolean = false;
     
     constructor(element: HTMLElement) {
       this.slider = element;
       
-      const container = element.querySelector('.slider-container');
       const track = element.querySelector('.slider-track');
       const slides = element.querySelectorAll('.slider-slide');
-      const dots = document.querySelectorAll('.slider-dot'); // ищем точки вне слайдера
       
-      if (!container || !track || !slides.length) {
+      // Ищем точки в родительском контейнере
+      const pagination = this.slider.closest('.container')?.querySelector('.slider-pagination');
+      const dots = pagination?.querySelectorAll('.slider-dot') || [];
+      
+      if (!track || !slides.length) {
         throw new Error('Required slider elements not found');
       }
       
-      this.container = container as HTMLElement;
       this.track = track as HTMLElement;
-      this.slides = slides;
-      this.dots = dots;
+      this.slides = Array.from(slides) as HTMLElement[];
+      this.dots = Array.from(dots) as HTMLElement[];
       
       this.slideCount = this.slides.length;
       
@@ -185,10 +178,26 @@ const {
     }
     
     private init(): void {
+      // Исправляем высоту слайдов
+      this.fixSlideHeight();
+      
       this.updateSlidePosition();
       this.updatePagination();
       this.startAutoplay();
       this.bindEvents();
+      
+      // Следим за изменением размера окна
+      this.resizeObserver = new ResizeObserver(() => {
+        this.updateSlidePosition();
+      });
+      this.resizeObserver.observe(this.slider);
+    }
+    
+    private fixSlideHeight(): void {
+      const sliderHeight = this.slider.offsetHeight;
+      this.slides.forEach(slide => {
+        slide.style.height = `${sliderHeight}px`;
+      });
     }
     
     private bindEvents(): void {
@@ -201,34 +210,37 @@ const {
       this.track.addEventListener('touchstart', this.handleDragStart.bind(this), { passive: true });
       window.addEventListener('touchmove', this.handleDragMove.bind(this), { passive: false });
       window.addEventListener('touchend', this.handleDragEnd.bind(this));
-      window.addEventListener('touchcancel', this.handleDragEnd.bind(this));
       
       // Pagination clicks
-      this.dots.forEach((dot: Element) => {
-        dot.addEventListener('click', (e: Event) => {
+      this.dots.forEach((dot, index) => {
+        dot.addEventListener('click', (e) => {
           e.preventDefault();
-          const index = parseInt((dot as HTMLElement).dataset.index || '0');
           this.goToSlide(index);
           this.pauseAutoplay();
         });
       });
       
-      // Prevent context menu on track
-      this.track.addEventListener('contextmenu', (e: Event) => e.preventDefault());
+      // Prevent drag on images
+      this.track.querySelectorAll('img').forEach(img => {
+        img.addEventListener('dragstart', (e) => e.preventDefault());
+      });
       
-      // Mouse leave
-      this.track.addEventListener('mouseleave', this.handleDragEnd.bind(this));
+      this.track.addEventListener('mouseleave', () => {
+        if (this.isDragging) {
+          this.handleDragEnd();
+        }
+      });
     }
     
     private handleDragStart(e: MouseEvent | TouchEvent): void {
       e.preventDefault();
       
       const clientX = this.getClientX(e);
+      const rect = this.slider.getBoundingClientRect();
       
       this.isDragging = true;
       this.dragStartTime = Date.now();
-      this.startX = clientX - this.currentIndex * this.slider.offsetWidth;
-      this.currentX = clientX;
+      this.startX = clientX - this.currentIndex * rect.width;
       
       this.track.classList.add('dragging');
       this.pauseAutoplay();
@@ -240,22 +252,20 @@ const {
       e.preventDefault();
       
       const clientX = this.getClientX(e);
-      this.currentX = clientX;
+      const rect = this.slider.getBoundingClientRect();
+      const diff = clientX - this.startX;
+      const currentOffset = -this.currentIndex * rect.width;
       
-      const diff = this.currentX - this.startX;
+      // Резиновый эффект на границах
+      let transformOffset = currentOffset + diff;
       
-      // Добавляем резиновый эффект на границах
       if (this.currentIndex === 0 && diff > 0) {
-        // Начало - резинка вправо
-        this.track.style.transform = `translateX(${diff * 0.3}px)`;
+        transformOffset = currentOffset + diff * 0.3;
       } else if (this.currentIndex === this.slideCount - 1 && diff < 0) {
-        // Конец - резинка влево
-        const maxDiff = diff + (this.slideCount - 1) * this.slider.offsetWidth;
-        this.track.style.transform = `translateX(${maxDiff * 0.3}px)`;
-      } else {
-        // Обычное перетаскивание
-        this.track.style.transform = `translateX(${diff}px)`;
+        transformOffset = currentOffset + diff * 0.3;
       }
+      
+      this.track.style.transform = `translateX(${transformOffset}px)`;
     }
     
     private handleDragEnd(e?: MouseEvent | TouchEvent): void {
@@ -266,41 +276,57 @@ const {
       
       const dragDuration = Date.now() - this.dragStartTime;
       const clientX = this.getClientXFromEndEvent(e);
+      const rect = this.slider.getBoundingClientRect();
       
       const diff = clientX - this.startX;
-      const threshold = this.slider.offsetWidth * 0.2; // Порог переключения (20% ширины)
+      const threshold = rect.width * 0.2;
+      
+      let newIndex = this.currentIndex;
       
       if (Math.abs(diff) > threshold || (dragDuration < 300 && Math.abs(diff) > 50)) {
-        // Быстрое перетаскивание или превышение порога
         if (diff > 0 && this.currentIndex > 0) {
-          this.currentIndex--;
+          newIndex--;
         } else if (diff < 0 && this.currentIndex < this.slideCount - 1) {
-          this.currentIndex++;
+          newIndex++;
         }
       }
       
-      this.updateSlidePosition();
+      if (newIndex !== this.currentIndex) {
+        this.currentIndex = newIndex;
+        this.updateSlidePosition();
+      } else {
+        // Возвращаем на место если сдвиг был маленький
+        this.updateSlidePosition();
+      }
       
-      // Возобновляем автопрокрутку после паузы
+      // Возобновляем автопрокрутку
       setTimeout(() => {
-        this.startAutoplay();
+        if (!this.isAutoplayPaused) {
+          this.startAutoplay();
+        }
       }, this.pauseOnInteraction);
     }
     
     private getClientX(e: MouseEvent | TouchEvent): number {
-      if (e instanceof TouchEvent) {
+      if (e instanceof TouchEvent && e.touches.length) {
         return e.touches[0].clientX;
       }
-      return e.clientX;
+      if (e instanceof MouseEvent) {
+        return e.clientX;
+      }
+      return 0;
     }
     
     private getClientXFromEndEvent(e?: MouseEvent | TouchEvent): number {
-      if (!e) return this.currentX;
+      if (!e) return 0;
       
-      if (e instanceof TouchEvent) {
-        return e.changedTouches ? e.changedTouches[0].clientX : this.currentX;
+      if (e instanceof TouchEvent && e.changedTouches?.length) {
+        return e.changedTouches[0].clientX;
       }
-      return e.clientX;
+      if (e instanceof MouseEvent) {
+        return e.clientX;
+      }
+      return 0;
     }
     
     private goToSlide(index: number): void {
@@ -308,7 +334,6 @@ const {
       
       this.currentIndex = index;
       this.updateSlidePosition();
-      this.updatePagination();
     }
     
     private updateSlidePosition(): void {
@@ -318,7 +343,7 @@ const {
     }
     
     private updatePagination(): void {
-      this.dots.forEach((dot: Element, index: number) => {
+      this.dots.forEach((dot, index) => {
         if (index === this.currentIndex) {
           dot.classList.add('active');
         } else {
@@ -328,7 +353,7 @@ const {
     }
     
     private startAutoplay(): void {
-      if (this.autoplayTimer !== null) {
+      if (this.autoplayTimer) {
         clearInterval(this.autoplayTimer);
       }
       
@@ -338,38 +363,35 @@ const {
     }
     
     private pauseAutoplay(): void {
-      if (this.autoplayTimer !== null) {
+      if (this.autoplayTimer) {
         clearInterval(this.autoplayTimer);
         this.autoplayTimer = null;
       }
     }
     
     private nextSlide(): void {
-      if (this.currentIndex < this.slideCount - 1) {
-        this.currentIndex++;
-      } else {
-        this.currentIndex = 0; // Зацикливание
-      }
-      
+      const nextIndex = (this.currentIndex + 1) % this.slideCount;
+      this.currentIndex = nextIndex;
       this.updateSlidePosition();
     }
     
-    private prevSlide(): void {
-      if (this.currentIndex > 0) {
-        this.currentIndex--;
-      } else {
-        this.currentIndex = this.slideCount - 1; // Зацикливание
+    public destroy(): void {
+      if (this.autoplayTimer) {
+        clearInterval(this.autoplayTimer);
       }
-      
-      this.updateSlidePosition();
+      if (this.resizeObserver) {
+        this.resizeObserver.disconnect();
+      }
     }
   }
 
-  // Инициализация слайдера после загрузки страницы
+  // Инициализация
+  let activeSlider: Slider | null = null;
+  
   document.addEventListener('DOMContentLoaded', () => {
     const sliderElement = document.getElementById('slider');
     if (sliderElement) {
-      new Slider(sliderElement);
+      activeSlider = new Slider(sliderElement);
     }
   });
 </script>

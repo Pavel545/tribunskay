@@ -1,0 +1,284 @@
+---
+import VideoBackground from "../ui/VideoBackground.astro";
+---
+
+<VideoBackground poster="/img/education/fonHero.jpg">
+    <!-- Весь контент из hero секции -->
+    <>
+        <div class="grid">
+            <div class="grid-left">
+                <h1 class="title">
+                    Порядок в финансах <br /> бизнеса и устранение <br /> кассовых
+                    разрывов
+                </h1>
+                <p class="vizitka_text">
+                    Курс-интенсив «CFO для своего бизнеса»: Углубленное обучение
+                    по 3 главным отчетам для собственников, управленцев и
+                    абитуриентов
+                </p>
+                <div class="butBox">
+                    <button style="--bg:var(--svetlo-seryy)" class="butt">
+                        Начать обучение
+                    </button>
+                </div>
+            </div>
+
+            <div class="grid-right"></div>
+        </div>
+        <div class="adItems">
+            <div class="adItem">
+                <div class="iconBox">
+                    <img src="/icons/education/1.png" alt="Онлайн-формат" />
+                </div>
+                <p class="adItemTitle">Онлайн-формат</p>
+            </div>
+            <div class="adItem">
+                <div class="iconBox">
+                    <img src="/icons/education/2.png" alt="Сжатые сроки" />
+                </div>
+                <p class="adItemTitle">Сжатые сроки</p>
+            </div>
+            <div class="adItem">
+                <div class="iconBox">
+                    <img src="/icons/education/3.png" alt="Финансовая консультация" />
+                </div>
+                <p class="adItemTitle">Финансовая консультация</p>
+            </div>
+            <div class="adItem">
+                <div class="iconBox">
+                    <img src="/icons/education/4.png" alt="Сертификат" />
+                </div>
+                <p class="adItemTitle">Сертификат</p>
+            </div>
+        </div>
+    </>
+</VideoBackground>
+
+<style>
+    .adItemTitle {
+        font-weight: 400;
+        font-size: 25px;
+        line-height: 120%;
+        letter-spacing: 0%;
+        color: var(--belyy);
+    }
+    
+    .adItems {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+        margin-top: 120px;
+    }
+
+    .adItem {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 7px;
+        padding: 20px;
+        background: #ffffff3f;
+        backdrop-filter: blur(10px);
+        transition: transform 300ms ease;
+    }
+    
+    .adItem:hover {
+        transform: translateY(-5px);
+    }
+    
+    .vizitka {
+        position: absolute;
+        right: 0;
+        bottom: 10%;
+        padding: 26px;
+        padding-right: 12vh;
+        background: linear-gradient(
+            270deg,
+            #0a0a0abd 60.07%,
+            rgba(10, 10, 10, 0) 100%
+        );
+    }
+
+    .vizitka_title {
+        font-family: var(--second-family);
+        font-weight: 700;
+        font-size: clamp(24px, 2vw, 40px);
+        line-height: 110%;
+        text-transform: uppercase;
+        text-align: right;
+        color: var(--zheltyy);
+    }
+
+    .vizitka_text {
+        font-weight: 400;
+        font-size: 25px;
+        line-height: 120%;
+        letter-spacing: 0%;
+        color: var(--svetlo-seryy);
+        max-width: 712px;
+    }
+    
+    .grid {
+        display: grid;
+        grid-template-columns: 3.2fr 1fr;
+        align-items: center;
+    }
+
+    .title {
+        font-family: var(--second-family);
+        font-weight: 700;
+        font-size: clamp(40px, 5vw, 75px);
+        line-height: 100%;
+        text-transform: uppercase;
+        color: var(--belyy);
+    }
+
+    .butBox {
+        display: flex;
+        gap: 20px;
+        margin-top: 80px;
+    }
+    
+    .iconBox img {
+        max-width: 100%;
+        height: auto;
+    }
+    
+    /* ===== АДАПТИВ ===== */
+    
+    /* Планшеты (до 1024px) */
+    @media (max-width: 1024px) {
+        .grid {
+            grid-template-columns: 1fr;
+            gap: 40px;
+        }
+        
+        .vizitka_text {
+            font-size: 22px;
+            max-width: 100%;
+        }
+        
+        .butBox {
+            margin-top: 50px;
+        }
+        
+        .adItems {
+            margin-top: 80px;
+            gap: 15px;
+        }
+        
+        .adItemTitle {
+            font-size: 20px;
+        }
+        
+        .adItem {
+            padding: 10px;
+        }
+    }
+    
+    /* Мобильные устройства (до 768px) */
+    @media (max-width: 768px) {
+        .grid {
+            gap: 30px;
+        }
+        
+        .title {
+            font-size: clamp(32px, 6vw, 40px);
+            br {
+                display: none;
+            }
+        }
+        
+        .vizitka_text {
+            font-size: 18px;
+            line-height: 130%;
+        }
+        
+        .butBox {
+            margin-top: 40px;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .butBox button {
+            width: 100%;
+        }
+        
+        .adItems {
+            grid-template-columns: repeat(2, 1fr);
+            margin-top: 60px;
+            gap: 15px;
+        }
+        
+        .adItemTitle {
+            font-size: 16px;
+            text-align: center;
+        }
+        
+        .adItem {
+            padding: 12px;
+        }
+        
+        .iconBox img {
+            width: 40px;
+            height: 40px;
+        }
+    }
+    
+    /* Маленькие мобильные (до 480px) */
+    @media (max-width: 480px) {
+        .grid {
+            gap: 20px;
+        }
+        
+        .title {
+            font-size: clamp(28px, 5vw, 32px);
+            br {
+                display: none;
+            }
+        }
+        
+        .vizitka_text {
+            font-size: 16px;
+        }
+        
+        .butBox {
+            margin-top: 30px;
+        }
+        
+        .adItems {
+            grid-template-columns: 1fr;
+            margin-top: 40px;
+            gap: 12px;
+        }
+        
+        .adItem {
+            flex-direction: row;
+            justify-content: center;
+            gap: 12px;
+            padding: 12px 20px;
+        }
+        
+        .adItemTitle {
+            font-size: 16px;
+            margin-bottom: 0;
+        }
+        
+        .iconBox img {
+            width: 32px;
+            height: 32px;
+        }
+    }
+    
+    /* Для очень больших экранов */
+    @media (min-width: 1920px) {
+        .vizitka_text {
+            max-width: 800px;
+            font-size: 28px;
+        }
+        
+        .title {
+            font-size: 85px;
+        }
+    
+    }
+</style>

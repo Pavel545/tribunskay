@@ -1,7 +1,11 @@
 ---
+import Faq from "../components/financial-audit/faq.astro";
 import Hero from "../components/financial-audit/hero.astro";
 import Why from "../components/financial-audit/why.astro";
+import Receive from "../components/financial-audit/receive.astro";
+import TrainingAudit from "../components/financial-audit/TrainingAudit.astro";
 import Layout from "../layouts/Layout.astro";
+import Slider from "../components/ui/Slider.astro";
 
 
 
@@ -9,16 +13,19 @@ import Layout from "../layouts/Layout.astro";
 
 
 const images: string[] = [
-  '/img/slider/1.jpg',
-  '/img/slider/2.jpg',
-  '/img/slider/3.jpg',
+  '/img/financial-audit/slider/1.jpg',
+  '/img/financial-audit/slider/2.jpg',
 ];
 ---
 
 <Layout>
-	<main >
+	<main style="background-color: var(--svetlyy);">
     <Hero/>
   <Why/>
+  <Faq/>
+  <Receive/>
+  <Slider images={images}/>
+  <TrainingAudit/>
   </main>
 </Layout>
 

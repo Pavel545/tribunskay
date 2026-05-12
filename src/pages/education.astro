@@ -1,0 +1,34 @@
+---
+import Hero from "../components/education/hero.astro";
+import Problems from "../components/education/problems.astro";
+import Steps from "../components/education/steps.astro";
+import Training from "../components/education/training.astro";
+import Layout from "../layouts/Layout.astro";
+
+
+
+
+
+
+const images: string[] = [
+  '/img/financial-audit/slider/1.jpg',
+  '/img/financial-audit/slider/2.jpg',
+];
+---
+
+<Layout>
+	<main style="background-color: var(--belyy);">
+    <Hero/>
+    <Problems/>
+    <Steps/>
+    <Training/>
+  </main>
+</Layout>
+
+
+
+<style>
+  :root {
+    --color: var(--temnyy);
+  }
+</style>

@@ -47,7 +47,7 @@ import VideoBackground from "../ui/VideoBackground.astro";
     .vizitka_title {
         font-family: var(--second-family);
         font-weight: 700;
-        font-size: 40px;
+        font-size: clamp(24px, 2vw, 40px);
         line-height: 110%;
         text-transform: uppercase;
         text-align: right;
@@ -88,7 +88,7 @@ import VideoBackground from "../ui/VideoBackground.astro";
     .title {
         font-family: var(--second-family);
         font-weight: 700;
-        font-size: 90px;
+        font-size: clamp(40px, 5vw, 90px);
         line-height: 100%;
         text-transform: uppercase;
         color: var(--belyy);
@@ -97,7 +97,7 @@ import VideoBackground from "../ui/VideoBackground.astro";
     .titleSp {
         font-family: var(--second-family);
         font-weight: 700;
-        font-size: 110px;
+        font-size: clamp(40px, 5.5vw, 110px);
         line-height: 111%;
         text-transform: uppercase;
         color: var(--zheltyy);
