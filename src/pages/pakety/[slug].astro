@@ -1,0 +1,32 @@
+---
+// src/pages/courses/[slug].astro
+import { courses, type Course } from "../../data/courses";
+import VideoBackground from "../../components/ui/VideoBackground.astro";
+import FormatCard from "../../components/ui/FormatCard.astro";
+import Layout from "../../layouts/Layout.astro";
+import Hero from "../../components/education/hero.astro";
+import Problems from "../../components/education/problems.astro";
+import Steps from "../../components/education/steps.astro";
+import Training from "../../components/education/training.astro";
+import Path from "../../components/education/path.astro";
+
+export async function getStaticPaths() {
+    return courses.map((course) => ({
+        params: { slug: course.slug },
+        props: { course },
+    }));
+}
+
+const { course } = Astro.props as { course: Course };
+---
+
+<Layout>
+    <main style="background-color: var(--belyy);">
+        <Hero course={course} />
+        <Problems course={course} />
+        <Path course={course} />
+        
+        <!-- Секция тарифов -->
+        <Training course={course} />
+    </main>
+</Layout>

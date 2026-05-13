@@ -1,37 +1,42 @@
 ---
+import type { Course } from "../../data/courses";
 import FormatCard from "../ui/FormatCard.astro";
+const {course} = Astro.props as { course: Course };
+
 ---
 
 <section class="training">
-    <div class="container">
-        <h2 class="h2 trainingTitle">
-            Выберите удобный <span class="yellow">формат обучения</span>
-        </h2>
+  <div class="container">
+    <h2 class="h2 trainingTitle">
+      Выберите удобный <span class="yellow">формат обучения</span>
+    </h2>
 
-        <div class="trainingContent">
-            <FormatCard
-                title="Базовый"
-                color="#282631"
-                who="Кто хочет понять основы самостоятельно"
-                cost="45 000 ₽"
-                item={["Доступ к видео-урокам и материалам", "Шаблоны 3-х главных отчетов"]}
-                itemDop={["Справочник KPI"]}
-            />
-             <FormatCard
-                title="Профессиональный"
-                color="#FFBF00"
-                who="Собственники, которым нужно внедрение под ключ"
-                cost="75 000 ₽"
-                item={["Всё из тарифа «Базовый»", "Индивидуальные сессии по внедрению систем учета", 
-                    "Живые разборы и Q&A сессии"
-                ]}
-                itemDop={["Постановка Управленческого Учета гайд"]}
-            />
-        </div>
+    <div class="trainingContent">
+      <FormatCard
+        title={course.tariffs.basic.title}
+        color={course.tariffs.basic.color}
+        who={course.tariffs.basic.who}
+        cost={course.tariffs.basic.cost}
+        item={course.tariffs.basic.items}
+        itemDop={course.tariffs.basic.dopItems}
+      />
+      <FormatCard
+        title={course.tariffs.professional.title}
+        color={course.tariffs.professional.color}
+        who={course.tariffs.professional.who}
+        cost={course.tariffs.professional.cost}
+        item={course.tariffs.professional.items}
+        itemDop={course.tariffs.professional.dopItems}
+        isHighlighted={course.tariffs.professional.isHighlighted}
+      />
     </div>
+  </div>
 </section>
 
 <style>
+    .h2 {
+       color: var(--temnyy);
+    }
   .training {
         padding: 120px 0;
         background: var(--svetlyy);

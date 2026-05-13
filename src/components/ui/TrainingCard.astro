@@ -3,11 +3,19 @@ export interface Props {
     title: string;
     color: string;
     who: string;
+    slug: string;
     bg?: string;
     item: string[];
 }
 
-const { title, color = "#ffba08", who, item, bg = "#202020" } = Astro.props;
+const {
+    title,
+    color = "#ffba08",
+    who,
+    slug,
+    item,
+    bg = "#202020",
+} = Astro.props;
 ---
 
 <div style={`--color:${color}; background:${bg}`} class="TrainingCard">
@@ -22,12 +30,13 @@ const { title, color = "#ffba08", who, item, bg = "#202020" } = Astro.props;
         {item.map((e, i) => <li class="listItem t20">{e}</li>)}
     </ul>
 
-    <button
+    <a
+        href={`/pakety/${slug}`}
         class="butt cardBut"
         style={`--bg:${color}; --col:var(--belyy); --colH: var(--zheltyy); --bgH: var(--belyy);`}
     >
         Записаться на обучение
-    </button>
+    </a>
 </div>
 
 <style>
@@ -55,11 +64,25 @@ const { title, color = "#ffba08", who, item, bg = "#202020" } = Astro.props;
     .title {
         font-family: var(--second-family);
         font-weight: 700;
-        font-size: 50px;
-        line-height: 90%;
+        font-size: max(12px, 2.2rem);
+        line-height: 1;
         text-transform: uppercase;
         color: var(--color);
     }
+
+@media (max-width: 780px) {
+        .TrainingCard {
+
+
+        min-height: 374px;
+    }
+
+    .title {
+     
+        font-size: max(12px, 1.5rem);
+      
+    }
+}
     .list {
         display: flex;
         flex-direction: column;

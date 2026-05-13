@@ -7,32 +7,49 @@ export interface Props {
   height?: string; // опциональная высота слайдера
 }
 
-const { 
-  images, 
-  autoplayDelay = 5000, 
+const {
+  images,
+  autoplayDelay = 5000,
   pauseOnInteraction = 10000,
-  height = '600px' // высота по умолчанию
+  height = "600px", // высота по умолчанию
 } = Astro.props;
 ---
 
 <section class="slider-wrapper">
   <div class="container">
-    <div class="slider" id="slider" data-autoplay-delay={autoplayDelay} data-pause-on-interaction={pauseOnInteraction}>
+    <div
+      class="slider"
+      id="slider"
+      data-autoplay-delay={autoplayDelay}
+      data-pause-on-interaction={pauseOnInteraction}
+    >
       <div class="slider-container">
         <div class="slider-track">
-          {images.map((src, index) => (
-            <div class="slider-slide" data-index={index}>
-              <img src={src} alt={`Slide ${index + 1}`} loading={index === 0 ? "eager" : "lazy"} />
-            </div>
-          ))}
+          {
+            images.map((src, index) => (
+              <div class="slider-slide" data-index={index}>
+                <img
+                  src={src}
+                  alt={`Slide ${index + 1}`}
+                  loading={index === 0 ? "eager" : "lazy"}
+                />
+              </div>
+            ))
+          }
         </div>
       </div>
     </div>
-    
+
     <div class="slider-pagination">
-      {images.map((_, index) => (
-        <button class="slider-dot" data-index={index} aria-label={`Перейти к слайду ${index + 1}`}></button>
-      ))}
+      {
+        images.map((_, index) => (
+          <button
+            class="slider-dot"
+            data-index={index}
+            aria-label={`Перейти к слайду ${index + 1}`}
+          />
+        ))
+      }
     </div>
   </div>
 </section>
@@ -40,9 +57,9 @@ const {
 <style is:global>
   .slider-wrapper {
     width: 100%;
+
+    padding: 140px 0;
   }
-
-
 
   .slider {
     width: 100%;
@@ -96,14 +113,14 @@ const {
     width: 12px;
     height: 12px;
     border-radius: 50%;
-    background: var(--svetlo-seryy);;
+    background: var(--svetlo-seryy);
     padding: 0;
     cursor: pointer;
     transition: all 0.3s ease;
   }
 
   .slider-dot.active {
-    background: var(--zheltyy);;
+    background: var(--zheltyy);
     transform: scale(1.2);
   }
 
@@ -118,13 +135,17 @@ const {
     .slider {
       height: 400px; /* меньшая высота на мобильных */
     }
-    
+    .slider-wrapper {
+      width: 100%;
+
+      padding: 30px 0;
+    }
     .slider-pagination {
       gap: 8px;
       margin-top: 16px;
       padding-bottom: 16px;
     }
-    
+
     .slider-dot {
       width: 10px;
       height: 10px;
@@ -138,7 +159,7 @@ const {
     private track: HTMLElement;
     private slides: HTMLElement[];
     private dots: HTMLElement[];
-    
+
     private currentIndex: number = 0;
     private slideCount: number;
     private startX: number = 0;
@@ -146,151 +167,164 @@ const {
     private dragStartTime: number = 0;
     private autoplayTimer: number | null = null;
     private resizeObserver: ResizeObserver | null = null;
-    
+
     private autoplayDelay: number;
     private pauseOnInteraction: number;
     private isAutoplayPaused: boolean = false;
-    
+
     constructor(element: HTMLElement) {
       this.slider = element;
-      
-      const track = element.querySelector('.slider-track');
-      const slides = element.querySelectorAll('.slider-slide');
-      
+
+      const track = element.querySelector(".slider-track");
+      const slides = element.querySelectorAll(".slider-slide");
+
       // Ищем точки в родительском контейнере
-      const pagination = this.slider.closest('.container')?.querySelector('.slider-pagination');
-      const dots = pagination?.querySelectorAll('.slider-dot') || [];
-      
+      const pagination = this.slider
+        .closest(".container")
+        ?.querySelector(".slider-pagination");
+      const dots = pagination?.querySelectorAll(".slider-dot") || [];
+
       if (!track || !slides.length) {
-        throw new Error('Required slider elements not found');
+        throw new Error("Required slider elements not found");
       }
-      
+
       this.track = track as HTMLElement;
       this.slides = Array.from(slides) as HTMLElement[];
       this.dots = Array.from(dots) as HTMLElement[];
-      
+
       this.slideCount = this.slides.length;
-      
-      this.autoplayDelay = parseInt(element.dataset.autoplayDelay || '5000');
-      this.pauseOnInteraction = parseInt(element.dataset.pauseOnInteraction || '10000');
-      
+
+      this.autoplayDelay = parseInt(element.dataset.autoplayDelay || "5000");
+      this.pauseOnInteraction = parseInt(
+        element.dataset.pauseOnInteraction || "10000",
+      );
+
       this.init();
     }
-    
+
     private init(): void {
       // Исправляем высоту слайдов
       this.fixSlideHeight();
-      
+
       this.updateSlidePosition();
       this.updatePagination();
       this.startAutoplay();
       this.bindEvents();
-      
+
       // Следим за изменением размера окна
       this.resizeObserver = new ResizeObserver(() => {
         this.updateSlidePosition();
       });
       this.resizeObserver.observe(this.slider);
     }
-    
+
     private fixSlideHeight(): void {
       const sliderHeight = this.slider.offsetHeight;
-      this.slides.forEach(slide => {
+      this.slides.forEach((slide) => {
         slide.style.height = `${sliderHeight}px`;
       });
     }
-    
+
     private bindEvents(): void {
       // Mouse events
-      this.track.addEventListener('mousedown', this.handleDragStart.bind(this));
-      window.addEventListener('mousemove', this.handleDragMove.bind(this));
-      window.addEventListener('mouseup', this.handleDragEnd.bind(this));
-      
+      this.track.addEventListener("mousedown", this.handleDragStart.bind(this));
+      window.addEventListener("mousemove", this.handleDragMove.bind(this));
+      window.addEventListener("mouseup", this.handleDragEnd.bind(this));
+
       // Touch events
-      this.track.addEventListener('touchstart', this.handleDragStart.bind(this), { passive: true });
-      window.addEventListener('touchmove', this.handleDragMove.bind(this), { passive: false });
-      window.addEventListener('touchend', this.handleDragEnd.bind(this));
-      
+      this.track.addEventListener(
+        "touchstart",
+        this.handleDragStart.bind(this),
+        { passive: true },
+      );
+      window.addEventListener("touchmove", this.handleDragMove.bind(this), {
+        passive: false,
+      });
+      window.addEventListener("touchend", this.handleDragEnd.bind(this));
+
       // Pagination clicks
       this.dots.forEach((dot, index) => {
-        dot.addEventListener('click', (e) => {
+        dot.addEventListener("click", (e) => {
           e.preventDefault();
           this.goToSlide(index);
           this.pauseAutoplay();
         });
       });
-      
+
       // Prevent drag on images
-      this.track.querySelectorAll('img').forEach(img => {
-        img.addEventListener('dragstart', (e) => e.preventDefault());
+      this.track.querySelectorAll("img").forEach((img) => {
+        img.addEventListener("dragstart", (e) => e.preventDefault());
       });
-      
-      this.track.addEventListener('mouseleave', () => {
+
+      this.track.addEventListener("mouseleave", () => {
         if (this.isDragging) {
           this.handleDragEnd();
         }
       });
     }
-    
+
     private handleDragStart(e: MouseEvent | TouchEvent): void {
       e.preventDefault();
-      
+
       const clientX = this.getClientX(e);
       const rect = this.slider.getBoundingClientRect();
-      
+
       this.isDragging = true;
       this.dragStartTime = Date.now();
       this.startX = clientX - this.currentIndex * rect.width;
-      
-      this.track.classList.add('dragging');
+
+      this.track.classList.add("dragging");
       this.pauseAutoplay();
     }
-    
+
     private handleDragMove(e: MouseEvent | TouchEvent): void {
       if (!this.isDragging) return;
-      
+
       e.preventDefault();
-      
+
       const clientX = this.getClientX(e);
       const rect = this.slider.getBoundingClientRect();
       const diff = clientX - this.startX;
       const currentOffset = -this.currentIndex * rect.width;
-      
+
       // Резиновый эффект на границах
       let transformOffset = currentOffset + diff;
-      
+
       if (this.currentIndex === 0 && diff > 0) {
         transformOffset = currentOffset + diff * 0.3;
       } else if (this.currentIndex === this.slideCount - 1 && diff < 0) {
         transformOffset = currentOffset + diff * 0.3;
       }
-      
+
       this.track.style.transform = `translateX(${transformOffset}px)`;
     }
-    
+
     private handleDragEnd(e?: MouseEvent | TouchEvent): void {
       if (!this.isDragging) return;
-      
+
       this.isDragging = false;
-      this.track.classList.remove('dragging');
-      
+      this.track.classList.remove("dragging");
+
       const dragDuration = Date.now() - this.dragStartTime;
       const clientX = this.getClientXFromEndEvent(e);
       const rect = this.slider.getBoundingClientRect();
-      
+
       const diff = clientX - this.startX;
       const threshold = rect.width * 0.2;
-      
+
       let newIndex = this.currentIndex;
-      
-      if (Math.abs(diff) > threshold || (dragDuration < 300 && Math.abs(diff) > 50)) {
+
+      if (
+        Math.abs(diff) > threshold ||
+        (dragDuration < 300 && Math.abs(diff) > 50)
+      ) {
         if (diff > 0 && this.currentIndex > 0) {
           newIndex--;
         } else if (diff < 0 && this.currentIndex < this.slideCount - 1) {
           newIndex++;
         }
       }
-      
+
       if (newIndex !== this.currentIndex) {
         this.currentIndex = newIndex;
         this.updateSlidePosition();
@@ -298,7 +332,7 @@ const {
         // Возвращаем на место если сдвиг был маленький
         this.updateSlidePosition();
       }
-      
+
       // Возобновляем автопрокрутку
       setTimeout(() => {
         if (!this.isAutoplayPaused) {
@@ -306,7 +340,7 @@ const {
         }
       }, this.pauseOnInteraction);
     }
-    
+
     private getClientX(e: MouseEvent | TouchEvent): number {
       if (e instanceof TouchEvent && e.touches.length) {
         return e.touches[0].clientX;
@@ -316,10 +350,10 @@ const {
       }
       return 0;
     }
-    
+
     private getClientXFromEndEvent(e?: MouseEvent | TouchEvent): number {
       if (!e) return 0;
-      
+
       if (e instanceof TouchEvent && e.changedTouches?.length) {
         return e.changedTouches[0].clientX;
       }
@@ -328,53 +362,53 @@ const {
       }
       return 0;
     }
-    
+
     private goToSlide(index: number): void {
       if (index < 0 || index >= this.slideCount) return;
-      
+
       this.currentIndex = index;
       this.updateSlidePosition();
     }
-    
+
     private updateSlidePosition(): void {
       const offset = -this.currentIndex * this.slider.offsetWidth;
       this.track.style.transform = `translateX(${offset}px)`;
       this.updatePagination();
     }
-    
+
     private updatePagination(): void {
       this.dots.forEach((dot, index) => {
         if (index === this.currentIndex) {
-          dot.classList.add('active');
+          dot.classList.add("active");
         } else {
-          dot.classList.remove('active');
+          dot.classList.remove("active");
         }
       });
     }
-    
+
     private startAutoplay(): void {
       if (this.autoplayTimer) {
         clearInterval(this.autoplayTimer);
       }
-      
+
       this.autoplayTimer = window.setInterval(() => {
         this.nextSlide();
       }, this.autoplayDelay);
     }
-    
+
     private pauseAutoplay(): void {
       if (this.autoplayTimer) {
         clearInterval(this.autoplayTimer);
         this.autoplayTimer = null;
       }
     }
-    
+
     private nextSlide(): void {
       const nextIndex = (this.currentIndex + 1) % this.slideCount;
       this.currentIndex = nextIndex;
       this.updateSlidePosition();
     }
-    
+
     public destroy(): void {
       if (this.autoplayTimer) {
         clearInterval(this.autoplayTimer);
@@ -387,9 +421,9 @@ const {
 
   // Инициализация
   let activeSlider: Slider | null = null;
-  
-  document.addEventListener('DOMContentLoaded', () => {
-    const sliderElement = document.getElementById('slider');
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const sliderElement = document.getElementById("slider");
     if (sliderElement) {
       activeSlider = new Slider(sliderElement);
     }

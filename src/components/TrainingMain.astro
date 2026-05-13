@@ -1,94 +1,102 @@
 ---
-import TrainingCard from "./ui/TrainingCard.astro"
-
+import TrainingCard from "./ui/TrainingCard.astro";
 
 const cards = [
     {
-        title:'University',
-        who:'Студенты и абитуриенты',
-        color:'#ffba08',
-        item:[
-            'Финансовая грамотность',
-            'Поиск и поддержка талантов'
-        ]
+        title: "Корпоративные финансы",
+        who: "Студенты и абитуриенты",
+        color: "#ffba08",
+        slug: "cfo-course",
+        item: ["Финансовая грамотность", "Поиск и поддержка талантов"],
     },
     {
-        title:'Soft Skills',
-        who:'Собственники и управленцы',
-        color:'#f48c06',
+        title: "Мышление и Энергия",
+        who: "Собственники и управленцы",
+        color: "#f48c06",
+        slug: "you-are-resource",
 
-        item:[
-            'Трансформация мышления',
-            'Финансовые игры',
-            'Тренинги по энергии денег',
-        ]
+        item: [
+            "Трансформация мышления",
+            "Финансовые игры",
+            "Тренинги по энергии денег",
+        ],
     },
     {
-        title:'Bridge',
-        who:'Личностный рост',
-        color:'var(--oranzhevyy)',
+        title: "Личный Капитал",
+        who: "Личностный рост",
+        color: "var(--oranzhevyy)",
+        slug: "personal-capital",
 
-        item:[
-            'Создание личного капитала',
-            'Стратегии сохранения',
-            'Приумножения инвестиций'
-        ]
+        item: [
+            "Создание личного капитала",
+            "Стратегии сохранения",
+            "Приумножения инвестиций",
+        ],
     },
     {
-        title:'Hard Skills',
-        who:'Для бизнеса всех форм',
-        color:'#d00000',
+        title: "Финансовый Архитектор",
+        who: "VIP-Направление для бизнеса всех форм ",
+        color: "#d00000",
+        slug: "financial-architect",
 
-        item:[
-            'Глубокий анализ отчетов',
-            'Внедрение систем учета',
-            'Корпоративные финансы'
-        ]
-    }
-]
+        item: [
+            "Глубокий анализ отчетов",
+            "Внедрение систем учета",
+            "Корпоративные финансы",
+        ],
+    },
+];
 ---
-
 
 <section class="TrainingMain" id="TrainingMain">
     <div class="container">
         <h2 class="h2">
-            Общественная <span class="yellow">деятельность</span> 
+            <span class="yellow">обучение</span>
         </h2>
 
         <div class="content">
-            {cards.map((e,i)=>(
-                <TrainingCard title={e.title} color={e.color} item={e.item} who={e.who} />
-            ))}
+            {
+                cards.map((e, i) => (
+                    <TrainingCard
+                        title={e.title}
+                        color={e.color}
+                        slug={e.slug}
+                        item={e.item}
+                        who={e.who}
+                    />
+                ))
+            }
         </div>
     </div>
 </section>
 
-
-
 <style>
-
-    .TrainingMain{
+    .TrainingMain {
         padding: 130px 0;
 
         border-top: 1px solid #ffffff37;
+
+        background: var(--chernyy);
     }
-    .content{
+    .content {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
 
         gap: 10px;
         padding: 120px 0;
     }
-   
+
     @media (max-width: 1024px) {
         .content {
             grid-template-columns: repeat(2, 1fr);
+            padding: 90px 0;
         }
     }
 
     @media (max-width: 640px) {
         .content {
             grid-template-columns: repeat(1, 1fr);
+            padding: 30px 0;
         }
     }
 </style>

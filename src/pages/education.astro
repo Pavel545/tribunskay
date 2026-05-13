@@ -3,6 +3,7 @@ import Hero from "../components/education/hero.astro";
 import Problems from "../components/education/problems.astro";
 import Steps from "../components/education/steps.astro";
 import Training from "../components/education/training.astro";
+import TrainingMain from "../components/TrainingMain.astro";
 import Layout from "../layouts/Layout.astro";
 
 
@@ -17,11 +18,8 @@ const images: string[] = [
 ---
 
 <Layout>
-	<main style="background-color: var(--belyy);">
-    <Hero/>
-    <Problems/>
-    <Steps/>
-    <Training/>
+	<main style="background-color: var(--chernyy);">
+    <TrainingMain/>
   </main>
 </Layout>
 
@@ -29,6 +27,6 @@ const images: string[] = [
 
 <style>
   :root {
-    --color: var(--temnyy);
+    --color: var(--belyy);
   }
 </style>

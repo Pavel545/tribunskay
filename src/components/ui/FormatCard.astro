@@ -7,6 +7,7 @@ export interface Props {
     bg?: string;
     item: string[];
     itemDop: string[];
+    isHighlighted?: boolean;
 }
 
 const {
@@ -17,6 +18,7 @@ const {
     item,
     itemDop,
     bg = "#fff",
+     isHighlighted
 } = Astro.props;
 ---
 
@@ -49,7 +51,9 @@ const {
     <button
     class="butt cardBut"
     style={`--bg:${color}; --col:var(--belyy); --colH: var(--zheltyy); --bgH: var(--belyy);`}
->
+    data-popup
+data-popup-title={`формат обучения ${title}`}
+    >
     Выбрать
 </button>
 </div>

@@ -17,7 +17,12 @@
             </div>
 
             <div class="items">
-                <div class="item">
+                <div
+                    class="item"
+                    data-popup
+                    data-popup-title="Записаться на Финансовый аудит"
+                    data-popup-service="Как выводить деньги из бизнеса без рисков?"
+                >
                     <p class="count">01/</p>
                     <p class="text">
                         Как выводить деньги из бизнеса без рисков?
@@ -25,7 +30,12 @@
 
                     <img class="itemIcon" src="/icons/go.svg" alt="Переход" />
                 </div>
-                <div class="item">
+                <div
+                    class="item"
+                    data-popup
+                    data-popup-title="Записаться на Финансовый аудит"
+                    data-popup-service="Как выйти из кассового разрыва безболезненно?"
+                >
                     <p class="count">02/</p>
                     <p class="text">
                         Как выйти из кассового разрыва безболезненно?
@@ -33,7 +43,12 @@
 
                     <img class="itemIcon" src="/icons/go.svg" alt="Переход" />
                 </div>
-                <div class="item">
+                <div
+                    class="item"
+                    data-popup
+                    data-popup-title="Записаться на Финансовый аудит"
+                    data-popup-service="Как правильно рассчитать прибыль проекта?"
+                >
                     <p class="count">03/</p>
                     <p class="text">
                         Как правильно рассчитать прибыль проекта?
@@ -41,7 +56,12 @@
 
                     <img class="itemIcon" src="/icons/go.svg" alt="Переход" />
                 </div>
-                <div class="item">
+                <div
+                    class="item"
+                    data-popup
+                    data-popup-title="Записаться на Финансовый аудит"
+                    data-popup-service=" Почему организация растет, а прибыль — нет?"
+                >
                     <p class="count">04/</p>
                     <p class="text">
                         Почему организация растет, а прибыль — нет?
@@ -49,7 +69,12 @@
 
                     <img class="itemIcon" src="/icons/go.svg" alt="Переход" />
                 </div>
-                <div class="item">
+                <div
+                    class="item"
+                    data-popup
+                    data-popup-title="Записаться на Финансовый аудит"
+                    data-popup-service="Как настроить финмодель для роста прибыли?"
+                >
                     <p class="count">05/</p>
                     <p class="text">
                         Как настроить финмодель для роста прибыли?
@@ -57,7 +82,12 @@
 
                     <img class="itemIcon" src="/icons/go.svg" alt="Переход" />
                 </div>
-                <div class="item">
+                <div
+                    class="item"
+                    data-popup
+                    data-popup-title="Записаться на Финансовый аудит"
+                    data-popup-service=" Как понять, что происходит в бухгалтерии?"
+                >
                     <p class="count">06/</p>
                     <p class="text">
                         Как понять, что происходит в бухгалтерии?
@@ -71,183 +101,192 @@
 </section>
 
 <style>
-   /* Базовые стили (десктоп) */
-.faq {
-    padding: 140px 0;
-}
-
-.itemIcon {
-    width: 40px;
-    height: 40px;
-}
-
-.text {
-    font-weight: 400;
-    font-size: 25px;    
-    line-height: 120%;
-    letter-spacing: 0%;
-    width: 100%;
-    padding: 10px;
-}
-
-.count {
-    font-weight: 400;
-    font-size: 25px;
-    line-height: 120%;
-    letter-spacing: 0%;
-    color: var(--svetlo-siniy);
-}
-
-.item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-bottom: 1px solid #0a0a0a24;
-}
-
-.items {
-    display: grid;
-    grid-template-rows: repeat(6, 1fr);
-}
-
-.faq_content {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 35px;
-    margin: 60px 0;
-}
-
-.faq_img {
-    width: 100%;
-    aspect-ratio: 4 / 3;
-}
-
-.faq_img img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-/* Планшеты (768px - 1023px) */
-@media screen and (max-width: 1023px) {
+    /* Базовые стили (десктоп) */
     .faq {
-        padding: 100px 0;
-    }
-
-    .faq_content {
-        gap: 25px;
-        margin: 40px 0;
-    }
-
-    .text {
-        font-size: 20px;
-        padding: 8px;
-    }
-
-    .count {
-        font-size: 20px;
+        padding: 140px 0;
     }
 
     .itemIcon {
-        width: 32px;
-        height: 32px;
-    }
-}
-
-/* Мобильные устройства (до 767px) */
-@media screen and (max-width: 767px) {
-    .faq {
-        padding: 60px 0;
-    }
-
-    /* Меняем колонки на 1 */
-    .faq_content {
-        grid-template-columns: 1fr;
-        gap: 30px;
-        margin: 30px 0;
-    }
-
-    /* Меняем порядок: картинка сверху, список снизу */
-    .faq_content > :first-child {
-        order: 1;
-    }
-
-    .faq_content > :last-child {
-        order: 2;
+        width: 40px;
+        height: 40px;
     }
 
     .text {
-        font-size: 16px;
-        padding: 8px 6px;
+        font-weight: 400;
+        font-size: 25px;
+        line-height: 120%;
+        letter-spacing: 0%;
+        width: 100%;
+        padding: 10px;
     }
 
     .count {
-        font-size: 16px;
-    }
-
-    .itemIcon {
-        width: 28px;
-        height: 28px;
+        font-weight: 400;
+        font-size: 25px;
+        line-height: 120%;
+        letter-spacing: 0%;
+        color: var(--seryy);
     }
 
     .item {
-        gap: 10px;
-        flex-wrap: wrap;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid #0a0a0a24;
+
+        cursor: pointer;
+        transition: 300ms all;
+
+        padding: 0 10px;
     }
 
-    /* Для очень длинных текстов */
-    .text {
-        flex: 1;
-        min-width: 0;
-    }
-}
-
-/* Маленькие мобильные (до 480px) */
-@media screen and (max-width: 480px) {
-    .faq {
-        padding: 40px 0;
-    }
-
-    .faq_content {
-        gap: 20px;
-        margin: 20px 0;
-    }
-
-    .text {
-        font-size: 14px;
-        padding: 6px 4px;
-    }
-
-    .count {
-        font-size: 14px;
-    }
-
-    .itemIcon {
-        width: 24px;
-        height: 24px;
-    }
-
-    .item {
-        gap: 8px;
+    .item:hover {
+        background-color: rgba(10, 10, 10, 0.02);
     }
 
     .items {
-        grid-template-rows: auto;
-    }
-}
-
-/* Опционально: горизонтальная ориентация на мобильных (до 767px, высота меньше ширины) */
-@media screen and (max-width: 767px) and (orientation: landscape) {
-    .faq {
-        padding: 40px 0;
+        display: grid;
+        grid-template-rows: repeat(6, 1fr);
     }
 
     .faq_content {
-        gap: 20px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 35px;
+        margin: 60px 0;
     }
 
-    .text {
-        font-size: 15px;
+    .faq_img {
+        width: 100%;
+        aspect-ratio: 4 / 3;
     }
-}
+
+    .faq_img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    /* Планшеты (768px - 1023px) */
+    @media screen and (max-width: 1023px) {
+        .faq {
+            padding: 100px 0;
+        }
+
+        .faq_content {
+            gap: 25px;
+            margin: 40px 0;
+        }
+
+        .text {
+            font-size: 20px;
+            padding: 8px;
+        }
+
+        .count {
+            font-size: 20px;
+        }
+
+        .itemIcon {
+            width: 32px;
+            height: 32px;
+        }
+    }
+
+    /* Мобильные устройства (до 767px) */
+    @media screen and (max-width: 767px) {
+        .faq {
+            padding: 60px 0;
+        }
+
+        /* Меняем колонки на 1 */
+        .faq_content {
+            grid-template-columns: 1fr;
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        /* Меняем порядок: картинка сверху, список снизу */
+        .faq_content > :first-child {
+            order: 1;
+        }
+
+        .faq_content > :last-child {
+            order: 2;
+        }
+
+        .text {
+            font-size: 16px;
+            padding: 8px 6px;
+        }
+
+        .count {
+            font-size: 16px;
+        }
+
+        .itemIcon {
+            width: 28px;
+            height: 28px;
+        }
+
+        .item {
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        /* Для очень длинных текстов */
+        .text {
+            flex: 1;
+            min-width: 0;
+        }
+    }
+
+    /* Маленькие мобильные (до 480px) */
+    @media screen and (max-width: 480px) {
+        .faq {
+            padding: 40px 0;
+        }
+
+        .faq_content {
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .text {
+            font-size: 14px;
+            padding: 6px 4px;
+        }
+
+        .count {
+            font-size: 14px;
+        }
+
+        .itemIcon {
+            width: 24px;
+            height: 24px;
+        }
+
+        .item {
+            gap: 8px;
+        }
+
+        .items {
+            grid-template-rows: auto;
+        }
+    }
+
+    /* Опционально: горизонтальная ориентация на мобильных (до 767px, высота меньше ширины) */
+    @media screen and (max-width: 767px) and (orientation: landscape) {
+        .faq {
+            padding: 40px 0;
+        }
+
+        .faq_content {
+            gap: 20px;
+        }
+
+        .text {
+            font-size: 15px;
+        }
+    }
 </style>

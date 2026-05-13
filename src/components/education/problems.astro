@@ -1,74 +1,38 @@
 ---
+import type { Course } from "../../data/courses";
+
+const {course} = Astro.props as { course: Course };
 
 ---
 
 <section class="problems" id="problems">
-    <div class="container">
-        <h2 class="h2 problemsTitle">
-            Хаус в учете или <br />
-            <span class="yellow"> прибыль в кармане? </span>
-        </h2>
+  <div class="container">
+    <h2 class="h2 problemsTitle">
+      {course.problems.title.split(' ').slice(0, -1).join(' ')} <br />
+      <span class="yellow"> {course.problems.title.split(' ').slice(-1).join(' ')} </span>
+    </h2>
 
-        <div class="problemsContent">
-            <div class="item">
-                <div class="iconBox">
-                    <img
-                        class="icon"
-                        src="/icons/education/problems/1.png"
-                        alt=""
-                    />
-                </div>
-                <h3 class="itemTitle">Не понимаю бухгалтерию</h3>
-                <p class="itemText">
-                    Нет системы, которая гарантирует безопасность
-                </p>
-            </div>
-            <div class="item">
-                <div class="iconBox">
-                    <img
-                        class="icon"
-                        src="/icons/education/problems/2.png"
-                        alt=""
-                    />
-                </div>
-                <h3 class="itemTitle">Где деньги?</h3>
-                <p class="itemText">
-                    Нет системы, которая гарантирует безопасность
-                </p>
-            </div>
-            <div class="item">
-                <div class="iconBox">
-                    <img
-                        class="icon"
-                        src="/icons/education/problems/3.png"
-                        alt=""
-                    />
-                </div>
-                <h3 class="itemTitle">Кассовые разрывы</h3>
-                <p class="itemText">
-                    Нет системы, которая гарантирует безопасность
-                </p>
-            </div>
-            <div class="item">
-                <div class="iconBox">
-                    <img
-                        class="icon"
-                        src="/icons/education/problems/4.png"
-                        alt=""
-                    />
-                </div>
-                <h3 class="itemTitle">Страх перед налоговой</h3>
-                <p class="itemText">
-                    Нет системы, которая гарантирует безопасность
-                </p>
-            </div>
+    <div class="problemsContent">
+      {course.problems.items.map((item, index) => (
+        <div class="item">
+          <div class="iconBox">
+            <img class="icon" src={item.icon} alt={item.title} />
+          </div>
+          <h3 class="itemTitle">{item.title}</h3>
+          <p class="itemText">{item.description}</p>
         </div>
+      ))}
     </div>
+  </div>
 </section>
 
 <style>
+
+    .h2 {
+       color: var(--temnyy);
+    }
     .problems {
-        padding: 160px 0;
+        padding: 140px 0;
     }
     .problemsTitle {
         text-align: center;

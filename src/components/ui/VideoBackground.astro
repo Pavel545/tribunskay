@@ -1,14 +1,14 @@
 ---
-
 export interface Props {
   videoSrc?: string;
   id?:string;
   poster?: string;
+  posterMobile?: string;  // Добавляем пропс для мобильного постера
   className?: string;
   children?: any;
 }
 
-const { videoSrc, id, poster, className = '' } = Astro.props;
+const { videoSrc, id, poster, posterMobile, className = '' } = Astro.props;
 ---
 
 <section id={id} class={`video-section ${className}`} aria-label="Секция с фоновым видео">
@@ -20,7 +20,11 @@ const { videoSrc, id, poster, className = '' } = Astro.props;
       autoplay 
       muted 
       loop 
+      disablePictureInPicture 
+      pip="false"
       playsinline
+      data-desktop-poster={poster}
+      data-mobile-poster={posterMobile}
     >
       <!-- fallback на случай, если видео не поддерживается -->
       Ваш браузер не поддерживает видео.
@@ -35,16 +39,66 @@ const { videoSrc, id, poster, className = '' } = Astro.props;
   </div>
 </section>
 
+<script>
+  // Клиентский скрипт для смены постера в зависимости от ширины экрана
+  (function() {
+    const video = document.querySelector<HTMLVideoElement>('.video-background video');
+    
+    // Безопасная проверка: если видео не найдено, выходим
+    if (!video) {
+      console.warn('Video element not found');
+      return;
+    }
+    
+    // Получаем URL изображений из data-атрибутов
+    const desktopPoster = video.getAttribute('data-desktop-poster');
+    const mobilePoster = video.getAttribute('data-mobile-poster');
+    
+    const updatePoster = (): void => {
+      const isMobile = window.innerWidth < 780;
+      let newPoster: string = '';
+      
+      // Выбираем правильный постер в зависимости от ширины экрана
+      if (isMobile && mobilePoster && mobilePoster !== 'undefined' && mobilePoster !== 'null' && mobilePoster !== '') {
+        newPoster = mobilePoster;
+      } else if (desktopPoster && desktopPoster !== 'undefined' && desktopPoster !== 'null' && desktopPoster !== '') {
+        newPoster = desktopPoster;
+      }
+      
+      // Обновляем постер только если он изменился и не пустой
+      if (newPoster && video.poster !== newPoster) {
+        video.poster = newPoster;
+      }
+    };
+    
+    // Запускаем при загрузке
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', updatePoster);
+    } else {
+      updatePoster();
+    }
+    
+    // Слушаем изменение размера окна с debounce для оптимизации
+    let resizeTimeout: ReturnType<typeof setTimeout> | undefined;
+    window.addEventListener('resize', () => {
+      if (resizeTimeout) {
+        clearTimeout(resizeTimeout);
+      }
+      resizeTimeout = setTimeout(updatePoster, 100);
+    });
+  })();
+</script>
+
 <style is:global>
   .video-section {
     position: relative;
     width: 100%;
-    min-height: 100vh; /* или можно задать конкретную высоту */
+    min-height: 100vh;
     overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: -2px;socText
+    margin-top: -2px;
   }
 
   .video-background {
@@ -59,7 +113,7 @@ const { videoSrc, id, poster, className = '' } = Astro.props;
   .video-background video {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* видео покрывает всю область */
+    object-fit: cover;
     object-position: center;
     pointer-events: none;
   }
@@ -68,7 +122,6 @@ const { videoSrc, id, poster, className = '' } = Astro.props;
     position: absolute;
     left: 0;
     top: 0;
-
     z-index: 2;
     width: 100%;
     height: 100%;
@@ -77,5 +130,4 @@ const { videoSrc, id, poster, className = '' } = Astro.props;
     justify-content: center;
     background: linear-gradient(271deg, rgba(10, 10, 10, 0) 0%, #0a0a0ae6 60.77% 80.77%);  
   }
-
 </style>
