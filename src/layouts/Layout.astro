@@ -10,21 +10,41 @@ const { showPreloader = true } = Astro.props;
 <!doctype html>
 <html lang="en">
 	<head>
-			<meta charset="UTF-8" />
+		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/png" href="/favicon-16x16.png" />
 		<link rel="icon" href="/favicon.ico" />
-		
+
 		<!-- PRELOAD ШРИФТОВ -->
-		<link rel="preload" href="/font/Book Antiqua/bookantiqua_bold.ttf" as="font" type="font/ttf" crossorigin="anonymous">
-		<link rel="preload" href="/font/Gilroy/Gilroy-ExtraBold.otf" as="font" type="font/otf" crossorigin="anonymous">
-		<link rel="preload" href="/font/Inter/Inter-V.ttf" as="font" type="font/ttf" crossorigin="anonymous">
-		
+		<link rel="preload" href="/logo.png" as="image" />
+		<link
+			rel="preload"
+			href="/font/Book Antiqua/bookantiqua_bold.ttf"
+			as="font"
+			type="font/ttf"
+			crossorigin="anonymous"
+		/>
+		<link
+			rel="preload"
+			href="/font/Gilroy/Gilroy-ExtraBold.otf"
+			as="font"
+			type="font/otf"
+			crossorigin="anonymous"
+		/>
+		<link
+			rel="preload"
+			href="/font/Inter/Inter-V.ttf"
+			as="font"
+			type="font/ttf"
+			crossorigin="anonymous"
+		/>
+
 		<style>
 			/* @font-face и базовые стили */
 			@font-face {
 				font-family: "Book Antiqua";
-				src: url("/font/Book Antiqua/bookantiqua_bold.ttf") format("truetype");
+				src: url("/font/Book Antiqua/bookantiqua_bold.ttf")
+					format("truetype");
 				font-weight: 700;
 				font-display: swap;
 			}
@@ -59,6 +79,11 @@ const { showPreloader = true } = Astro.props;
 			<Footer />
 		</div>
 
-		<Preloader show={showPreloader} spinnerType="spinner" duration={3000} />
+		<Preloader
+			show={showPreloader}
+			spinnerType="circular"
+			duration={3000}
+			customText="ЗАГРУЗКА"
+		/>
 	</body>
 </html>

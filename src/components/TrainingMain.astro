@@ -1,4 +1,5 @@
 ---
+import UniversalAnimated from "./ui/framer-motion/UniversalAnimated";
 import TrainingCard from "./ui/TrainingCard.astro";
 
 const cards = [
@@ -50,20 +51,35 @@ const cards = [
 
 <section class="TrainingMain" id="TrainingMain">
     <div class="container">
+           <UniversalAnimated
+                client:load
+                type="scroll"
+                direction="left"
+                duration={0.87}
+                delay={1.2}
+            >
         <h2 class="h2">
             <span class="yellow">обучение</span>
         </h2>
+    </UniversalAnimated>
 
         <div class="content">
             {
                 cards.map((e, i) => (
+                     <UniversalAnimated
+                client:load
+                type="scroll"
+                direction="up"
+                duration={0.87}
+                delay={0.6 + i * 0.1}
+            >
                     <TrainingCard
                         title={e.title}
                         color={e.color}
                         slug={e.slug}
                         item={e.item}
                         who={e.who}
-                    />
+                    /></UniversalAnimated>
                 ))
             }
         </div>

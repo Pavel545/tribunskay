@@ -1,16 +1,38 @@
 ---
+import UniversalAnimated from "./ui/framer-motion/UniversalAnimated";
 import VideoBackground from "./ui/VideoBackground.astro";
 ---
 
-<VideoBackground id="aCell" videoSrc="/video/fon1.mp4">
-    <div class="content">
+<VideoBackground id="aCell" videoSrc="/video/fon1.webm">
+    <div class="content"><UniversalAnimated
+                client:load
+                type="scroll"
+                direction="up"
+                duration={0.87}
+                delay={0.3}
+            >
         <h2 class="title">
-            <span class="yellow"> ДоверьтеСЬ профессионалам</span>
-            <br />вместе мы добьёмся <br /> финансовых результатов
-        </h2>
-
-        <button data-popup
-                        data-popup-title="Записаться на консультацию" class="butt"> Записаться на консультацию </button>
+            
+                <span class="yellow"> ДоверьтеСЬ профессионалам</span>
+           
+                вместе мы добьёмся <br /> финансовых результатов
+       
+        </h2>     </UniversalAnimated>
+        <UniversalAnimated
+            client:load
+            type="scroll"
+            direction="up"
+            duration={0.87}
+            delay={0.5}
+        >
+            <button
+                data-popup
+                data-popup-title="Записаться на консультацию"
+                class="butt"
+            >
+                Записаться на консультацию
+            </button>
+        </UniversalAnimated>
     </div>
 </VideoBackground>
 
@@ -23,7 +45,7 @@ import VideoBackground from "./ui/VideoBackground.astro";
     }
 
     .title {
-        font-family: var(--second-family);
+        font-family: var(--second-family) ;
         font-weight: 700;
         font-size: clamp(32px, 4vw, 75px);
         line-height: 100%;

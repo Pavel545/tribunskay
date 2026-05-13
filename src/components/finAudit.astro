@@ -1,13 +1,23 @@
 ---
+import UniversalAnimated from "./ui/framer-motion/UniversalAnimated";
 import VideoBackground from "./ui/VideoBackground.astro";
 ---
 
-<VideoBackground id="finAudit" videoSrc="/video/fon2.mp4">
+<VideoBackground id="finAudit" videoSrc="/video/fon2.webm">
     <div class="content">
-        <h2 class="title">
-            <span class="yellow"> Финансовый аудит</span>
-            вашей компании
-        </h2>
+        <UniversalAnimated
+            client:load
+            type="scroll"
+            direction="up"
+            duration={0.87}
+            delay={0.3}
+        >
+            <h2 class="title">
+                <span class="yellow"> Финансовый аудит</span>
+<br>
+                вашей компании
+            </h2>
+        </UniversalAnimated>
 
         <a href="/financial-audit" class="butt"> Перейти на страницу </a>
     </div>
@@ -22,7 +32,7 @@ import VideoBackground from "./ui/VideoBackground.astro";
     }
 
     .title {
-        font-family: var(--second-family);
+        font-family: var(--second-family) !important;
         font-weight: 700;
         font-size: clamp(32px, 4vw, 75px);
 

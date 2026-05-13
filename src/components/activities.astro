@@ -1,5 +1,6 @@
 ---
 import Card from "./ui/card.astro";
+import UniversalAnimated from "./ui/framer-motion/UniversalAnimated";
 
 const cards = [
     {
@@ -23,12 +24,32 @@ const cards = [
 
 <section class="activities" id="activities">
     <div class="container">
-        <h2 class="h2">
-            Общественная <span class="yellow">деятельность</span>
-        </h2>
+        <UniversalAnimated
+            client:load
+            type="scroll"
+            direction="left"
+            duration={0.87}
+            delay={0.3}
+        >
+            <h2 class="h2">
+                Общественная <span class="yellow">деятельность</span>
+            </h2>
+        </UniversalAnimated>
 
         <div class="content">
-            {cards.map((e, i) => <Card srcIcon={e.icon} text={e.Text} />)}
+            {
+                cards.map((e, i) => (
+                    <UniversalAnimated
+                        client:load
+                        type="scroll"
+                        direction="up"
+                        duration={0.87}
+                        delay={0.6 + i * 0.1}
+                    >
+                        <Card srcIcon={e.icon} text={e.Text} />
+                    </UniversalAnimated>
+                ))
+            }
         </div>
     </div>
 </section>
@@ -41,7 +62,7 @@ const cards = [
     }
     .content {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(160px,1fr));
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
 
         gap: 10px;
         padding: 120px 0;
@@ -50,16 +71,14 @@ const cards = [
     @media (max-width: 1024px) {
         .content {
             grid-template-columns: repeat(2, 1fr);
-        padding: 90px 0;
-
+            padding: 90px 0;
         }
     }
 
     @media (max-width: 640px) {
         .content {
             grid-template-columns: repeat(1, 1fr);
-        padding:  0;
-
+            padding: 0;
         }
     }
 </style>

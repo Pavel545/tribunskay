@@ -1,28 +1,73 @@
 ---
+import AnimatedSection from "./ui/framer-motion/AnimatedSection";
 import VideoBackground from "./ui/VideoBackground.astro";
+import UniversalAnimated from "./ui/framer-motion/UniversalAnimated.tsx";
 ---
 
-<VideoBackground videoSrc="/video/fonHero.mp4">
+<VideoBackground videoSrc="/video/fonHero.webm">
     <!-- Весь контент из hero секции -->
     <div class="gird">
         <div class="grid-left">
-            <h1 class="title">
-                Трибунская <br /><span class="titleSp">про деньги</span>
-            </h1>
+            <UniversalAnimated 
+               client:load
+                type="onload"
+                direction="left"
+                duration={0.8}
+                delay={0.2}
+            >
+                <h1 class="title">
+                    Трибунская <br /><span class="titleSp">про деньги</span>
+                </h1>
+            </UniversalAnimated>
+           
+           {/* Анимация списка с каскадной задержкой */}
             <ul class="list">
-                <li class="list_item">Финансовый аудит бизнеса</li>
-                <li class="list_item">
-                    Обучение финансовой грамотности для компаний
-                </li>
-                <li class="list_item">Личный рост по финансам</li>
+                {[
+                    "Финансовый аудит бизнеса",
+                    "Обучение финансовой грамотности для компаний",
+                    "Личный рост по финансам"
+                ].map((item, index) => (
+                    <AnimatedSection
+                        client:load
+                        direction="left"
+                        delay={0.6 + index * 0.1}
+                        duration={0.4}
+                    >
+                        <li class="list_item">{item}</li>
+                    </AnimatedSection>
+                ))}
             </ul>
 
-            <div class="butBox">
-                <a href="/education" style="--bg:var(--zheltyy)" class="butt"
-                    >ОНлайн обучение</a
+              <div class="butBox">
+                <AnimatedSection 
+                    client:load
+                    direction="up" 
+                    delay={0.9}
+                    duration={0.5}
                 >
-                <button  data-popup
-                        data-popup-title="Записаться на консультацию"  class="butt">Записаться на консультацию </button>
+                    <a 
+                        href="/education" 
+                        style="--bg:var(--zheltyy)" 
+                        class="butt"
+                    >
+                        Онлайн обучение
+                    </a>
+                </AnimatedSection>
+                
+                <AnimatedSection 
+                    client:load
+                    direction="up" 
+                    delay={1.1}
+                    duration={0.5}
+                >
+                    <button  
+                        data-popup
+                        data-popup-title="Записаться на консультацию"  
+                        class="butt"
+                    >
+                        Записаться на консультацию
+                    </button>
+                </AnimatedSection>
             </div>
         </div>
 

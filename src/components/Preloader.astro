@@ -1,126 +1,264 @@
 ---
 // components/Preloader.astro
 interface Props {
-  show?: boolean;
-  duration?: number;
-  spinnerType?: "spinner" | "text" | "logo";
-  customText?: string;
+    show?: boolean;
+    duration?: number;
+    spinnerType?: "spinner" | "text" | "logo" | "circular";
+    customText?: string;
 }
 
-const { 
-  show = true, 
-  duration = 3000,
-  spinnerType = "spinner",
-  customText = "ЗАГРУЗКА..."
+const {
+    show = true,
+    duration = 3000,
+    spinnerType = "circular",
+    customText = "ЗАГРУЗКА...",
 } = Astro.props;
 ---
 
-{show && (
-  <div 
-    id="global-preloader" 
-    class="preloader"
-    data-duration={duration}
-  >
-    <div class="preloader-container">
-      {spinnerType === "spinner" && (
-        <div class="preloader-spinner"></div>
-      )}
-      {spinnerType === "text" && (
-        <div class="preloader-text">{customText}</div>
-      )}
-      {spinnerType === "logo" && (
-        <img src="/logo.svg" alt="Logo" class="preloader-logo" />
-      )}
-    </div>
-  </div>
-)}
+{
+    show && (
+        <div id="global-preloader" class="preloader" data-duration={duration}>
+            <div class="preloader-container">
+                {spinnerType === "circular" && (
+                    <div class="circular-loader">
+                        <svg class="circular-progress" viewBox="0 0 100 100">
+                            <circle
+                                class="progress-bar-bg"
+                                cx="50"
+                                cy="50"
+                                r="45"
+                                fill="none"
+                                stroke="var(--svetlo-seryy, #c8c8c8)"
+                                stroke-width="4"
+                            />
+                            <circle
+                                class="progress-bar"
+                                cx="50"
+                                cy="50"
+                                r="45"
+                                fill="none"
+                                stroke="var(--zheltyy, #ffbf00)"
+                                stroke-width="4"
+                                stroke-linecap="round"
+                                stroke-dasharray="283"
+                                stroke-dashoffset="283"
+                            />
+                        </svg>
+                        <div class="logo-wrapper">
+                            <img
+                                src="/logo.png"
+                                alt="Logo"
+                                class="circular-logo"
+                            />
+                        </div>
+                        {customText && (
+                            <div class="circular-text">{customText}</div>
+                        )}
+                    </div>
+                )}
+
+                {spinnerType === "spinner" && <div class="preloader-spinner" />}
+
+                {spinnerType === "text" && (
+                    <div class="preloader-text">{customText}</div>
+                )}
+
+                {spinnerType === "logo" && (
+                    <img src="/logo.png" alt="Logo" class="preloader-logo" />
+                )}
+            </div>
+        </div>
+    )
+}
 
 <style>
-  .preloader {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: var(--temnyy, #282631);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-    transition: opacity 0.5s ease, visibility 0.5s ease;
-    opacity: 1;
-    visibility: visible;
-    pointer-events: none;
-  }
+    .preloader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: var(--chernyy, #282631);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        transition:
+            opacity 0.5s ease,
+            visibility 0.5s ease;
+        opacity: 1;
+        visibility: visible;
+        pointer-events: none;
+    }
 
-  .preloader.hide {
-    opacity: 0;
-    visibility: hidden;
-  }
+    .preloader.hide {
+        opacity: 0;
+        visibility: hidden;
+    }
 
-  .preloader-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+    .preloader-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 
-  .preloader-spinner {
-    width: 60px;
-    height: 60px;
-    border: 4px solid var(--svetlo-seryy, #c8c8c8);
-    border-top: 4px solid var(--zheltyy, #ffbf00);
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-  }
+    /* ===== КРУГОВОЙ ЛОАДЕР С ЛОГОТИПОМ ===== */
+    .circular-loader {
+        position: relative;
+        width: 120px;
+        height: 120px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
 
-  .preloader-text {
-    font-family: "Inter", sans-serif;
-    font-size: 16px;
-    color: var(--belyy, #fff);
-    letter-spacing: 2px;
-    animation: pulse 1.5s ease infinite;
-  }
+    .circular-progress {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        transform: rotate(-90deg);
+    }
 
-  .preloader-logo {
-    width: 80px;
-    height: auto;
-    animation: pulse 1.5s ease infinite;
-  }
+    .progress-bar-bg {
+        stroke: rgba(200, 200, 200, 0.2);
+    }
 
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
+    .progress-bar {
+        transition: stroke-dashoffset 0.1s linear;
+        filter: drop-shadow(0 0 2px rgba(255, 191, 0, 0.5));
+    }
 
-  @keyframes pulse {
-    0%, 100% { opacity: 0.3; transform: scale(0.95); }
-    50% { opacity: 1; transform: scale(1); }
-  }
+    .logo-wrapper {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 70px;
+        height: 70px;
+        background: var(--temnyy, #282631);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .circular-logo {
+        width: 50px;
+        height: auto;
+        animation: pulse 1.5s ease infinite;
+    }
+
+    .circular-text {
+        position: absolute;
+        bottom: -35px;
+        font-family: "Inter", sans-serif;
+        font-size: 12px;
+        color: var(--belyy, #fff);
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        white-space: nowrap;
+    }
+
+    /* ===== ОБЫЧНЫЙ СПИННЕР ===== */
+    .preloader-spinner {
+        width: 60px;
+        height: 60px;
+        border: 4px solid var(--svetlo-seryy, #c8c8c8);
+        border-top: 4px solid var(--zheltyy, #ffbf00);
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+    }
+
+    /* ===== ТЕКСТОВЫЙ ЛОАДЕР ===== */
+    .preloader-text {
+        font-family: "Inter", sans-serif;
+        font-size: 16px;
+        color: var(--belyy, #fff);
+        letter-spacing: 2px;
+        animation: pulse 1.5s ease infinite;
+    }
+
+    /* ===== ЛОГОТИП ===== */
+    .preloader-logo {
+        width: 80px;
+        height: auto;
+        animation: pulse 1.5s ease infinite;
+    }
+
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    @keyframes pulse {
+        0%,
+        100% {
+            opacity: 0.3;
+            transform: scale(0.95);
+        }
+        50% {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
 </style>
 
 <script>
-  const preloader = document.getElementById('global-preloader');
-  const content = document.getElementById('app-content');
-  
-  // Получаем duration из data-атрибута
-  const duration = preloader ? parseInt(preloader.getAttribute('data-duration') || '3000') : 3000;
+    import { string } from "astro:schema";
 
-  const hidePreloader = () => {
-    if (!preloader) return;
-    
-    preloader.classList.add('hide');
-    setTimeout(() => {
-      if (preloader) preloader.style.display = 'none';
-    }, 500);
-    
-    if (content) content.classList.add('visible');
-  };
+    const preloader = document.getElementById("global-preloader");
+    const content = document.getElementById("app-content");
+    const duration = preloader
+        ? parseInt(preloader.getAttribute("data-duration") || "3000")
+        : 3000;
 
-  if (document.readyState === 'complete') {
-    hidePreloader();
-  } else {
-    window.addEventListener('load', hidePreloader);
-  }
+    // Анимация круговой шкалы - ИСПРАВЛЕНО
+    const progressCircle = document.querySelector(
+        ".progress-bar",
+    ) as SVGCircleElement | null;
+    if (progressCircle) {
+        const circumference = 2 * Math.PI * 45;
+        const totalDuration = duration;
+        let startTime: number | null = null;
 
-  setTimeout(hidePreloader, duration);
+        const animateProgress = (timestamp: number) => {
+            if (!startTime) startTime = timestamp;
+            const elapsed = timestamp - startTime;
+            const progress = Math.min(elapsed / totalDuration, 1);
+            const offset = circumference * (1 - progress);
+            progressCircle.style.strokeDashoffset = `${offset}`;
+
+            if (progress < 1) {
+                requestAnimationFrame(animateProgress);
+            }
+        };
+
+        requestAnimationFrame(animateProgress);
+    }
+
+    const hidePreloader = () => {
+        if (!preloader) return;
+
+        preloader.classList.add("hide");
+        setTimeout(() => {
+            if (preloader) preloader.style.display = "none";
+        }, 500);
+
+        if (content) content.classList.add("visible");
+    };
+
+    if (document.readyState === "complete") {
+        hidePreloader();
+    } else {
+        window.addEventListener("load", hidePreloader);
+    }
+
+    setTimeout(hidePreloader, duration);
 </script>
